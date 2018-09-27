@@ -42,6 +42,26 @@ typedef struct s_input_data
 
 }t_input_data;
 
+typedef struct s_vld_path_elem
+{
+   char *name;
+   struct s_vld_path_elem *next;
+}t_vld_path_elem;
+
+typedef struct s_lst_vld_path
+{
+    int leng;
+    t_vld_path_elem *first_path_el;
+    struct s_lst_vld_path *next;
+}t_lst_vld_path;
+
+typedef struct s_list_queue
+{
+    char *crn_room_name;
+    struct s_list_queue *next;
+}t_list_queue;
+
 int ft_read_data(t_input_data *data);
+t_lst_vld_path *find_valid_path(t_input_data data);
 
 #endif //LEM_IN_LIBFTLEMIN_H
