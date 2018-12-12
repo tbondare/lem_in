@@ -70,7 +70,8 @@ t_lst_vld_path *find_valid_path(t_input_data data)
         while (crn_tube)
         {
             find_next_link(data, frst_queue_el, &crn_tube);
-            check_room_is_end(end_room, crn_tube);
+            if (check_room_is_end(end_room, crn_tube) == 1)
+
         }
         mem_queue = frst_queue_el;
         frst_queue_el = frst_queue_el->next;
