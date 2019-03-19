@@ -11,17 +11,17 @@ void add_tubes_to_rooms(t_input_data *data)
         frs_tb = data->frst_tb;
         while(frs_tb)
         {
-            if (ft_strequ (crnt_rm->room.name, frs_tb->tube.first) == 1)
+            if (ft_strequ (crnt_rm->name, frs_tb->first) == 1)
             {
-                crnt_rm->room.link = (t_links*)malloc(sizeof(t_links));
-                crnt_rm->room.link->linked_room->link = frs_tb->tube.second;
-                crnt_rm = crnt_rm->room.link->next;
+                crnt_rm->link = (t_links*)malloc(sizeof(t_links));
+                crnt_rm->link->linked_room->link = frs_tb->second;
+                crnt_rm = crnt_rm->link->next;
             }
-            else if (ft_strequ (data->frst_rm->room.name, frs_tb->tube.second) == 1)
+            else if (ft_strequ (data->frst_rm->name, frs_tb->second) == 1)
             {
-                crnt_rm->room.link = (t_links*)malloc(sizeof(t_links));
-                crnt_rm->room.link->linked_room->link = frs_tb->tube.first;
-                crnt_rm = crnt_rm->room.link->next;
+                crnt_rm->link = (t_links*)malloc(sizeof(t_links));
+                crnt_rm->link->linked_room->link = frs_tb->first;
+                crnt_rm = crnt_rm->link->next;
             }
             frs_tb = frs_tb->next_tb;
         }

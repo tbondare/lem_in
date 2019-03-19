@@ -26,11 +26,11 @@ void init_room(char *line, t_input_data *data)
     i = 0;
     while (line[i] != '\0' && line[i] != ' ')
         i++;
-    data->frst_rm->room.name = ft_strsub(line, 0, i);
-    data->frst_rm->room.x = ft_atoi(&line[++i]);
+    data->frst_rm->name = ft_strsub(line, 0, i);
+    data->frst_rm->x = ft_atoi(&line[++i]);
     while (line[i] != '\0' && line[i] != ' ')
         i++;
-    data->frst_rm->room.y = ft_atoi(&line[++i]);
+    data->frst_rm->y = ft_atoi(&line[++i]);
 }
 
 void add_rm_to_list(t_input_data *data)
@@ -40,25 +40,25 @@ void add_rm_to_list(t_input_data *data)
     if (data->frst_rm == NULL)
     {
         data->frst_rm = (t_list_rooms*)malloc(sizeof(t_list_rooms));
-        data->frst_rm->room.name = NULL;
-        data->frst_rm->room.x = 0;
-        data->frst_rm->room.y = 0;
-        data->frst_rm->room.is_sart = 0;
-        data->frst_rm->room.is_end = 0;
-        data->frst_rm->room.was_in_room = 0;
-        data->frst_rm->room.link = NULL;
+        data->frst_rm->name = NULL;
+        data->frst_rm->x = 0;
+        data->frst_rm->y = 0;
+        data->frst_rm->is_sart = 0;
+        data->frst_rm->is_end = 0;
+        data->frst_rm->was_in_room = 0;
+        data->frst_rm->link = NULL;
         data->frst_rm->next_rm = NULL;
     }
     else
     {
         new = (t_list_rooms*)malloc(sizeof(t_list_rooms));
-        new->room.name = NULL;
-        new->room.x = 0;
-        new->room.y = 0;
-        new->room.is_sart = 0;
-        new->room.is_end = 0;
-        new->room.was_in_room = 0;
-        new->room.link = NULL;
+        new->name = NULL;
+        new->x = 0;
+        new->y = 0;
+        new->is_sart = 0;
+        new->is_end = 0;
+        new->was_in_room = 0;
+        new->link = NULL;
         new->next_rm = data->frst_rm;
         data->frst_rm = new;
     }
@@ -101,7 +101,7 @@ int find_same_room(t_input_data *data, char *name_rm)
     cur_rm = data->frst_rm;
     while (cur_rm != NULL)
     {
-        if (ft_strequ(name_rm, cur_rm->room.name) == 1)
+        if (ft_strequ(name_rm, cur_rm->name) == 1)
             cnt++;
         cur_rm = cur_rm->next_rm;
     }
@@ -117,15 +117,15 @@ void add_tb_to_list(t_input_data *data)
     if (data->frst_tb == NULL)
     {
         data->frst_tb = (t_list_tubes*)malloc(sizeof(t_list_tubes));
-        data->frst_tb->tube.first = NULL;
-        data->frst_tb->tube.second = NULL;
+        data->frst_tb->first = NULL;
+        data->frst_tb->second = NULL;
         data->frst_tb->next_tb = NULL;
     }
     else
     {
         new = (t_list_tubes*)malloc(sizeof(t_list_tubes));
-        new->tube.first = NULL;
-        new->tube.second = NULL;
+        new->first = NULL;
+        new->second = NULL;
         new->next_tb = data->frst_tb;
         data->frst_tb = new;
     }
@@ -135,8 +135,8 @@ void free_frst_tb(t_input_data *data)
 {
     t_list_tubes *next;
 
-    ft_strdel(&data->frst_tb->tube.first);
-    ft_strdel(&data->frst_tb->tube.second);
+    ft_strdel(&data->frst_tb->first);
+    ft_strdel(&data->frst_tb->second);
     next = data->frst_tb->next_tb;
     free(data->frst_tb);
     data->frst_tb = next;
@@ -158,7 +158,7 @@ int try_read_tubes (char *line, t_input_data *data)
     if (find_same_room(data, name_rm) == 0)
         return (-1);
     add_tb_to_list(data);
-    data->frst_tb->tube.first = name_rm;
+    data->frst_tb->first = name_rm;
     i++;
     name_rm = ft_strsub(line, i, ft_strlen(&line[i]));
     if (find_same_room(data, name_rm) == 0)
@@ -167,7 +167,7 @@ int try_read_tubes (char *line, t_input_data *data)
         free(name_rm);
         return (-1);
     }
-    data->frst_tb->tube.second = name_rm;
+    data->frst_tb->second = name_rm;
     return (1);
 }
 
@@ -185,9 +185,9 @@ int try_read_comment(char *line, t_input_data *data, int fd)
     if (try_read_room(line, data) != 1)
         return (-1);
     if (fl == 's')
-        data->frst_rm->room.is_sart = 1;
+        data->frst_rm->is_sart = 1;
     else
-        data->frst_rm->room.is_end = 1;
+        data->frst_rm->is_end = 1;
     return (1);
 }
 

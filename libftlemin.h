@@ -9,7 +9,7 @@
 
 struct s_links;
 
-typedef struct s_room
+/*typedef struct s_room
 {
     char *name;
     int x;
@@ -18,29 +18,44 @@ typedef struct s_room
     int is_end;
     struct s_links *link;
     int was_in_room;
-}t_room;
+}t_room; */
 
-typedef struct s_links
+/*typedef struct s_links
 {
-    t_room *linked_room;
+    t_rooms *linked_room;
     struct s_links *next;
-}t_links;
+}t_links;*/
 
 typedef struct s_list_rooms
 {
-    t_room room;
+//  t_room room;
+    char *name;
+    int x;
+    int y;
+    int is_sart;
+    int is_end;
+    int was_in_room;
+    struct s_links *link;
     struct s_list_rooms *next_rm;
 }t_list_rooms;
 
-typedef struct s_tube
+typedef struct s_links
 {
-    char *first;
-    char *second;
-}t_tube;
+    t_list_rooms *linked_room;
+    struct s_links *next;
+}t_links;
+
+//typedef struct s_tube
+//{
+//    char *first;
+//    char *second;
+//}t_tube;
 
 typedef struct s_list_tubes
 {
-    t_tube tube;
+//  t_tube tube;
+    char *first;
+    char *second;
     struct s_list_tubes *next_tb;
 }t_list_tubes;
 
