@@ -7,6 +7,8 @@
 
 # include"libft/libft.h"
 
+struct s_links;
+
 typedef struct s_room
 {
     char *name;
@@ -14,7 +16,15 @@ typedef struct s_room
     int y;
     int is_sart;
     int is_end;
+    struct s_links *link;
+    int was_in_room;
 }t_room;
+
+typedef struct s_links
+{
+    t_room *linked_room;
+    struct s_links *next;
+}t_links;
 
 typedef struct s_list_rooms
 {
@@ -60,6 +70,13 @@ typedef struct s_list_queue
     char *crn_room_name;
     struct s_list_queue *next;
 }t_list_queue;
+
+typedef struct s_queue_data
+{
+    t_list_queue *frst_queue_el;
+    t_list_queue *mem_queue;
+    t_list_queue *last_q_el;
+}t_queue_data;
 
 int ft_read_data(t_input_data *data);
 t_lst_vld_path *find_valid_path(t_input_data data);

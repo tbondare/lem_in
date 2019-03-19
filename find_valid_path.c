@@ -55,26 +55,24 @@ int check_room_is_end(char *end_room, t_list_tubes *crn_tube)
 
 t_lst_vld_path *find_valid_path(t_input_data data)
 {
-    t_list_queue *frst_queue_el;
-    t_list_queue *mem_queue;
-    t_list_queue *last_q_el;
+    t_queue_data queue;
     t_list_tubes *crn_tube;
     char *end_room;
 
-    frst_queue_el = (t_list_queue*)malloc(sizeof(t_list_queue));
-    frst_queue_el->crn_room_name = find_start_room(data);
+    queue.frst_queue_el = (t_list_queue*)malloc(sizeof(t_list_queue));
+    queue.frst_queue_el->crn_room_name = find_start_room(data);
     end_room = find_end_room(data);
-    while (frst_queue_el)
+    while (queue.frst_queue_el)
     {
         crn_tube = data.frst_tb;
         while (crn_tube)
         {
-            find_next_link(data, frst_queue_el, &crn_tube);
+            find_next_link(data, queue.frst_queue_el, &crn_tube);
             if (check_room_is_end(end_room, crn_tube) == 1)
 
         }
-        mem_queue = frst_queue_el;
-        frst_queue_el = frst_queue_el->next;
-        free(mem_queue);
+        queue.mem_queue = queue.frst_queue_el;
+        queue.frst_queue_el = queue.frst_queue_el->next;
+        free(queue.mem_queue);
     }
 }

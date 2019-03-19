@@ -45,6 +45,8 @@ void add_rm_to_list(t_input_data *data)
         data->frst_rm->room.y = 0;
         data->frst_rm->room.is_sart = 0;
         data->frst_rm->room.is_end = 0;
+        data->frst_rm->room.was_in_room = 0;
+        data->frst_rm->room.link = NULL;
         data->frst_rm->next_rm = NULL;
     }
     else
@@ -55,6 +57,8 @@ void add_rm_to_list(t_input_data *data)
         new->room.y = 0;
         new->room.is_sart = 0;
         new->room.is_end = 0;
+        new->room.was_in_room = 0;
+        new->room.link = NULL;
         new->next_rm = data->frst_rm;
         data->frst_rm = new;
     }
