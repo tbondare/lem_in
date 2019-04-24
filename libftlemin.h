@@ -69,20 +69,22 @@ typedef struct s_input_data
 
 typedef struct s_vld_path_elem
 {
-   char *name;
+   //char *name;
+   t_list_rooms *frst;
    struct s_vld_path_elem *next;
 }t_vld_path_elem;
 
 typedef struct s_lst_vld_path
 {
     int leng;
-    t_vld_path_elem *first_path_el;
+    t_vld_path_elem *frst_path_el;
     struct s_lst_vld_path *next;
 }t_lst_vld_path;
 
 typedef struct s_list_queue
 {
-    char *crn_room_name;
+    //char *crn_rm_name;
+    t_list_rooms *crn_rm_name;
     struct s_list_queue *next;
 }t_list_queue;
 
