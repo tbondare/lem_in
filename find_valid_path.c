@@ -33,18 +33,6 @@ char *find_end_room(t_input_data data)
     return (crn_room->name);
 }
 
-//void find_next_link(t_input_data data, t_list_queue *frst_queue_el,
-//        t_list_tubes **crn_tube)
-//{
-//    while (*crn_tube)
-//    {
-//        if ((*crn_tube)->first == frst_queue_el->crn_room_name ||
-//                (*crn_tube)->second == frst_queue_el->crn_room_name)
-//            break ;
-//        *crn_tube = (*crn_tube)->next_tb;
-//    }
-//}
-
 int check_room_is_end(char *end_room, t_list_tubes *crn_tube)
 {
     if (ft_strcmp(end_room, crn_tube->first) != 0)
@@ -53,41 +41,65 @@ int check_room_is_end(char *end_room, t_list_tubes *crn_tube)
     return (1);
 }
 
+void add_queue_el(t_queue_data *que, t_list_rooms *el_que)
+{
+    t_list_queue *crn_qel;
+
+    crn_qel = que->last_q_el;
+    que->last_q_el = (t_list_queue*)malloc(sizeof(t_list_queue));
+    que->last_q_el->crn_room = el_que;
+    que->last_q_el->next = NULL;
+    if(que->frst_queue_el != NULL)
+        crn_qel->next = que->last_q_el;
+    else
+        que->frst_queue_el = que->last_q_el ;
+}
+
+void del_first_queue_el(t_queue_data *queue)
+{
+    queue->mem_queue = queue->frst_queue_el;
+    queue->frst_queue_el = queue->frst_queue_el->next;
+    free(queue->mem_queue);
+}
+
+void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
+{
+
+}
+
 t_lst_vld_path *find_valid_path(t_input_data data)
 {
     t_queue_data queue;
-    t_list_rooms *crn_rm;
+    t_links *crn_rm_ln;
     char *end_room;
-    t_lst_vld_path frst_el;
+    t_lst_vld_path *frst_vl_pth;
 
-    queue.frst_queue_el = (t_list_queue*)malloc(sizeof(t_list_queue));
-    queue.frst_queue_el->crn_rm_name = find_start_room(data);
+    queue.last_q_el = NULL;
+    queue.frst_queue_el = NULL;
+    add_queue_el(&queue, find_start_room(data));
     end_room = find_end_room(data);
     while (queue.frst_queue_el)
     {
-        crn_rm = queue.frst_queue_el->crn_rm_name;
-        while (crn_rm)
+        queue.frst_queue_el->crn_room->was_in_room = 1;
+        crn_rm_ln = queue.frst_queue_el->crn_room->link;
+        while (crn_rm_ln)
         {
-//          find_next_link(data, queue.frst_queue_el, &crn_tube);
-            if (check_room_is_end(end_room, crn_rm->next_rm->name) == 1)
+            if (check_room_is_end(end_room, crn_rm_ln->linked_room->name) == 1)
             {
-                frst_el.frst_path_el = (t_vld_path_elem*)malloc(sizeof(t_vld_path_elem));
-                frst_el.frst_path_el->frst = crn_rm;
-                frst_el.leng++;
-                crn_rm = crn_rm->next_rm;
+                save_val_path(&frst_vl_pth, queue.frst_queue_el->crn_room);
+            }
+            else if (crn_rm_ln->linked_room->was_in_room == 1)
+            {
+                crn_rm_ln = crn_rm_ln->next;
+                continue;
             }
             else
             {
-                crn_rm->next_rm->was_in_room = 1;
+                crn_rm_ln->next_rm->was_in_room = 1;
 
             }
-
-
-
-
+            crn_rm_ln = crn_rm_ln->next;
         }
-        queue.mem_queue = queue.frst_queue_el;
-        queue.frst_queue_el = queue.frst_queue_el->next;
-        free(queue.mem_queue);
+        del_first_queue_el(&queue);
     }
 }

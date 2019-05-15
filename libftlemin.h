@@ -36,6 +36,7 @@ typedef struct s_list_rooms
     int is_end;
     int was_in_room;
     struct s_links *link;
+    struct s_list_rooms *come_from_rm;
     struct s_list_rooms *next_rm;
 }t_list_rooms;
 
@@ -83,8 +84,8 @@ typedef struct s_lst_vld_path
 
 typedef struct s_list_queue
 {
-    //char *crn_rm_name;
-    t_list_rooms *crn_rm_name;
+    //char *crn_room;
+    t_list_rooms *crn_room;
     struct s_list_queue *next;
 }t_list_queue;
 
