@@ -64,7 +64,21 @@ void del_first_queue_el(t_queue_data *queue)
 
 void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
 {
+    t_lst_vld_path *mem_vld_path;
+    t_vld_path_elem *mem_path_el;
 
+    mem_vld_path = *frst_vl_pth;
+    *frst_vl_pth = (t_lst_vld_path*)malloc(sizeof(t_lst_vld_path));
+    (*frst_vl_pth)->next = mem_vld_path;
+    (*frst_vl_pth)->frst_path_el = NULL;
+    while (!crn_room->is_sart)
+    {
+        mem_path_el = (*frst_vl_pth)->frst_path_el;
+        (*frst_vl_pth)->frst_path_el = (t_vld_path_elem*)malloc(sizeof(t_vld_path_elem));
+        (*frst_vl_pth)->frst_path_el->next = mem_path_el;
+        (*frst_vl_pth)->frst_path_el->room = crn_room;
+        crn_room = crn_room->come_from_rm;
+    }
 }
 
 t_lst_vld_path *find_valid_path(t_input_data data)
@@ -85,9 +99,7 @@ t_lst_vld_path *find_valid_path(t_input_data data)
         while (crn_rm_ln)
         {
             if (check_room_is_end(end_room, crn_rm_ln->linked_room->name) == 1)
-            {
                 save_val_path(&frst_vl_pth, queue.frst_queue_el->crn_room);
-            }
             else if (crn_rm_ln->linked_room->was_in_room == 1)
             {
                 crn_rm_ln = crn_rm_ln->next;
@@ -95,8 +107,7 @@ t_lst_vld_path *find_valid_path(t_input_data data)
             }
             else
             {
-                crn_rm_ln->next_rm->was_in_room = 1;
-
+                crn_rm_ln->linked_room->come_from_rm = queue.frst_queue_el->crn_room;
             }
             crn_rm_ln = crn_rm_ln->next;
         }

@@ -9,26 +9,8 @@
 
 struct s_links;
 
-/*typedef struct s_room
-{
-    char *name;
-    int x;
-    int y;
-    int is_sart;
-    int is_end;
-    struct s_links *link;
-    int was_in_room;
-}t_room; */
-
-/*typedef struct s_links
-{
-    t_rooms *linked_room;
-    struct s_links *next;
-}t_links;*/
-
 typedef struct s_list_rooms
 {
-//  t_room room;
     char *name;
     int x;
     int y;
@@ -46,15 +28,8 @@ typedef struct s_links
     struct s_links *next;
 }t_links;
 
-//typedef struct s_tube
-//{
-//    char *first;
-//    char *second;
-//}t_tube;
-
 typedef struct s_list_tubes
 {
-//  t_tube tube;
     char *first;
     char *second;
     struct s_list_tubes *next_tb;
@@ -70,8 +45,7 @@ typedef struct s_input_data
 
 typedef struct s_vld_path_elem
 {
-   //char *name;
-   t_list_rooms *frst;
+   t_list_rooms *room;
    struct s_vld_path_elem *next;
 }t_vld_path_elem;
 
@@ -84,7 +58,6 @@ typedef struct s_lst_vld_path
 
 typedef struct s_list_queue
 {
-    //char *crn_room;
     t_list_rooms *crn_room;
     struct s_list_queue *next;
 }t_list_queue;
