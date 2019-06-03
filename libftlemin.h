@@ -8,6 +8,7 @@
 # include"libft/libft.h"
 
 struct s_links;
+struct s_ls_come_from;
 
 typedef struct s_list_rooms
 {
@@ -17,10 +18,17 @@ typedef struct s_list_rooms
     int is_sart;
     int is_end;
     int was_in_room;
+    int is_in_queue;
     struct s_links *link;
-    struct s_list_rooms *come_from_rm;
+    struct s_ls_come_from *from;
     struct s_list_rooms *next_rm;
 }t_list_rooms;
+
+typedef struct s_ls_come_from
+{
+    struct s_list_rooms *room;
+    struct s_ls_come_from *next;
+}t_ls_come_from;
 
 typedef struct s_links
 {

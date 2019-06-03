@@ -46,6 +46,7 @@ void add_rm_to_list(t_input_data *data)
         data->frst_rm->is_sart = 0;
         data->frst_rm->is_end = 0;
         data->frst_rm->was_in_room = 0;
+        data->frst_rm->is_in_queue = 0;
         data->frst_rm->link = NULL;
         data->frst_rm->next_rm = NULL;
     }
@@ -58,6 +59,7 @@ void add_rm_to_list(t_input_data *data)
         new->is_sart = 0;
         new->is_end = 0;
         new->was_in_room = 0;
+        new->is_in_queue = 0;
         new->link = NULL;
         new->next_rm = data->frst_rm;
         data->frst_rm = new;
