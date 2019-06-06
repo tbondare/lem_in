@@ -19,6 +19,7 @@ typedef struct s_list_rooms
     int is_end;
     int was_in_room;
     int is_in_queue;
+    int is_in_val_pth;
     struct s_links *link;
     struct s_ls_come_from *from;
     struct s_list_rooms *next_rm;
