@@ -55,6 +55,7 @@ void add_tubes_to_rooms(t_input_data *data)
 int main()
 {
     t_input_data data;
+    t_lst_vld_path *lst_vld_path;
 
     data.frst_rm = NULL;
     data.frst_tb = NULL;
@@ -65,6 +66,7 @@ int main()
         return (0);
     }
     add_tubes_to_rooms(&data);
-    find_valid_path(data);
+    lst_vld_path = find_valid_path(&data);
+    run_ants(&data, lst_vld_path);
     return 0;
 }

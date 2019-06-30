@@ -1,11 +1,11 @@
 #include "libftlemin.h"
 #include "stdio.h"
 
-t_list_rooms *find_start_room(t_input_data data)
+t_list_rooms *find_start_room(t_input_data *data)
 {
     t_list_rooms *crn_room;
 
-    crn_room = data.frst_rm;
+    crn_room = data->frst_rm;
     while (crn_room->is_sart != 1 && crn_room->next_rm)
         crn_room = crn_room->next_rm;
     if (crn_room->is_sart != 1 && crn_room->next_rm == NULL)
@@ -16,19 +16,19 @@ t_list_rooms *find_start_room(t_input_data data)
     return (crn_room);
 }
 
-char *find_end_room(t_input_data data)
-{
-    t_list_rooms *crn_room;
-    crn_room = data.frst_rm;
-    while (crn_room->is_end != 1 && crn_room->next_rm)
-        crn_room = crn_room->next_rm;
-    if (crn_room->is_end != 1 && crn_room->next_rm == NULL)
-    {
-        //TODO:error;
-        return (0);
-    }
-    return (crn_room->name);
-}
+//char *find_end_room(t_input_data data)
+//{
+//    t_list_rooms *crn_room;
+//    crn_room = data.frst_rm;
+//    while (crn_room->is_end != 1 && crn_room->next_rm)
+//        crn_room = crn_room->next_rm;
+//    if (crn_room->is_end != 1 && crn_room->next_rm == NULL)
+//    {
+//        //TODO:error;
+//        return (0);
+//    }
+//    return (crn_room->name);
+//}
 
 //int check_room_is_end(char *end_room, char *crn_rm)
 //{
@@ -84,27 +84,31 @@ void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
 
     mem_vld_path = *frst_vl_pth;
     *frst_vl_pth = (t_lst_vld_path*)malloc(sizeof(t_lst_vld_path));
+    (*frst_vl_pth)->y = 0;
     (*frst_vl_pth)->next = mem_vld_path;
     (*frst_vl_pth)->frst_path_el = NULL;
+    (*frst_vl_pth)->leng = 1;
     while (!crn_room->is_sart)
     {
         mem_path_el = (*frst_vl_pth)->frst_path_el;
         (*frst_vl_pth)->frst_path_el = (t_vld_path_elem*)malloc(sizeof(t_vld_path_elem));
         (*frst_vl_pth)->frst_path_el->next = mem_path_el;
         (*frst_vl_pth)->frst_path_el->room = crn_room;
+        printf("!!!!!sv_val_path %s\n", crn_room->name);
         crn_room->is_in_val_pth = 1;
-        while (crn_room->from->room->is_in_val_pth == 1 && crn_room->from->next)
+        while (crn_room->from->room->is_in_val_pth == 1)
         {
             mem_from = crn_room->from;
             crn_room->from = crn_room->from->next;
             free (mem_from);
         }
+        (*frst_vl_pth)->leng++;
         crn_room = crn_room->from->room;
-        printf("!!!!!sv_val_path %s\n", crn_room->name);
     }
+    printf("leng %d", (*frst_vl_pth)->leng);
 }
 
-t_lst_vld_path *find_valid_path(t_input_data data)
+t_lst_vld_path *find_valid_path(t_input_data *data)
 {
     t_queue_data queue;
     t_links *crn_rm_ln;
@@ -134,6 +138,8 @@ t_lst_vld_path *find_valid_path(t_input_data data)
             }
             else if(crn_rm_ln->linked_room->is_in_queue == 1)
             {
+                add_come_from_room(queue.frst_queue_el->crn_room, crn_rm_ln->linked_room);
+                printf("      come_from %s\n", crn_rm_ln->linked_room->from->room->name);
                 crn_rm_ln = crn_rm_ln->next;
                 printf("   is_in_queue\n");
                 continue;

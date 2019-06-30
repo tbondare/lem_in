@@ -61,6 +61,8 @@ typedef struct s_vld_path_elem
 typedef struct s_lst_vld_path
 {
     int leng;
+    int y;
+    int x;
     t_vld_path_elem *frst_path_el;
     struct s_lst_vld_path *next;
 }t_lst_vld_path;
@@ -79,6 +81,7 @@ typedef struct s_queue_data
 }t_queue_data;
 
 int ft_read_data(t_input_data *data);
-t_lst_vld_path *find_valid_path(t_input_data data);
+t_lst_vld_path *find_valid_path(t_input_data *data);
+void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path);
 
 #endif //LEM_IN_LIBFTLEMIN_H

@@ -200,7 +200,7 @@ int ft_read_data(t_input_data *data)
     int i;
     int fd;
 
-    fd = open("input_data.txt", O_RDONLY);
+    fd = open("input_data", O_RDONLY);
     while (get_next_line(fd, &line) > 0)
     {
         if (try_read_cnt_ants(line, data) == 1)
