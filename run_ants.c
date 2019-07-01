@@ -1,56 +1,23 @@
 #include "libftlemin.h"
 #include "stdio.h"
 
-char *write_float_in_str(float x)
-{
-    int x_int;
-    char *str;
-    char *str2;
-
-    if (x < 1)
-    {
-        str = (char*)malloc(sizeof(char) * 3);
-        str[0] = '0';
-        str[1] = ',';
-        str[2] = '\0';
-    }
-    else
-    {
-        x_int = x;
-        str = ft_itoa(x_int);
-        str2 = (char*)malloc(sizeof(char) * 2);
-        str2[0] = ',';
-        str2[1] = '\0';
-        str = ft_strjoin(str, str2);
-        free(str2);
-        x_int = x;
-        x = x - x_int;
-    }
-    while (x)
-    {
-        x_int = x;
-        x = x - x_int;
-        x = x * 10;
-        str2 = (char*)malloc(sizeof(char) * 2);
-        str2[0] = x_int + '0';
-        str2[1] = '\0';
-        str = ft_strjoin(str, str2);
-        free(str2);
-    }
-    return (str);
-}
-
 int ft_round(float x)
 {
-    int i;
-    int cnt_dgt;
-    char *arr_dgt;
+    int x_int;
+    int c;
 
-    i = 0;
-    if (x == 0)
-        return (0);
-    write_float_in_str(x);
-    return (x);
+    x_int = x;
+    x = x - x_int;
+    while (x)
+    {
+        c = x * 10;
+        if (c >= 5)
+            return (++x_int);
+        if (c < 4)
+            return (x_int);
+        x = x - c;
+    }
+    return (x_int);
 }
 
 void cnt_x(t_input_data *data, t_lst_vld_path *lst_vld_path)
@@ -90,4 +57,5 @@ void cnt_x(t_input_data *data, t_lst_vld_path *lst_vld_path)
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 {
     cnt_x(data, lst_vld_path);
+
 }

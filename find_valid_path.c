@@ -16,28 +16,6 @@ t_list_rooms *find_start_room(t_input_data *data)
     return (crn_room);
 }
 
-//char *find_end_room(t_input_data data)
-//{
-//    t_list_rooms *crn_room;
-//    crn_room = data.frst_rm;
-//    while (crn_room->is_end != 1 && crn_room->next_rm)
-//        crn_room = crn_room->next_rm;
-//    if (crn_room->is_end != 1 && crn_room->next_rm == NULL)
-//    {
-//        //TODO:error;
-//        return (0);
-//    }
-//    return (crn_room->name);
-//}
-
-//int check_room_is_end(char *end_room, char *crn_rm)
-//{
-//    if (ft_strcmp(end_room, crn_rm) != 0)
-//        if (ft_strcmp(end_room, crn_rm->second) != 0)
-//            return (0);
-//    return (1);
-//}
-
 void add_queue_el(t_queue_data *que, t_list_rooms *el_que)
 {
     t_list_queue *crn_qel;
