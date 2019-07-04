@@ -20,24 +20,24 @@ int ft_round(float x)
     return (x_int);
 }
 
-int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path, t_output_data *out)
+int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path)
 {
-    int n;
     int prdct_b;
     int sum_y;
+    int nmbr_path;
     t_lst_vld_path *crnt;
 
-    n = 0;
     sum_y = 0;
     prdct_b = 1;
     crnt = lst_vld_path;
+    nmbr_path = 0;
     while (crnt)
     {
-        n++;
+        nmbr_path++;
         prdct_b = prdct_b * crnt->leng;
         crnt = crnt->next;
     }
-    printf("n = %d\n", n);
+    printf("n = %d\n", nmbr_path);
     crnt = lst_vld_path;
     while (crnt)
     {
@@ -48,15 +48,44 @@ int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path, t_
     crnt = lst_vld_path;
     while (crnt)
     {
-        crnt->x = ft_round((float)data->cnt_ants * crnt->y / sum_y);
+        crnt->x = ft_round((float) data->cnt_ants * crnt->y / sum_y);
         printf("x = %d\n", crnt->x);
         crnt = crnt->next;
     }
-    return (prdct_b);
+    return (nmbr_path);
+}
+
+void output_ants(t_output_data *out)
+{
+
 }
 
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 {
+    int i;
+    int j;
+    int nmbr_path;
     t_output_data out;
-    cnt_x_for_every_valpath(data, lst_vld_path, &out);
+    t_lst_vld_path *crnt;
+
+    i = 0;
+    j = 0;
+    crnt = lst_vld_path;
+    nmbr_path = cnt_x_for_every_valpath(data, lst_vld_path);
+    out.output = (t_output_data*)malloc(sizeof(t_output_data) * nmbr_path);
+    while (crnt)
+    {
+        out.output->arr = (char*)malloc(sizeof(char) * crnt->leng);
+        out.output->arr[i] = (char*)malloc(sizeof(char));
+        while (crnt->frst_path_el)
+        {
+            out.output->arr[j] = crnt->frst_path_el->room;
+            out.output->nmb_ants = crnt->x;
+            crnt->frst_path_el = crnt->frst_path_el->next;
+            j++;
+        }
+        i++;
+        crnt = crnt->next;
+    }
+//    output_ants(out.output);
 }

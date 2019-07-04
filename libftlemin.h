@@ -80,10 +80,15 @@ typedef struct s_queue_data
     t_list_queue *last_q_el;
 }t_queue_data;
 
+typedef struct s_out_data_el
+{
+    int nmb_ants;
+    char *arr;
+}t_out_data_el;
+
 typedef struct s_output_data
 {
-    int nmb_path;
-    int *arr;
+    t_out_data_el *output;
 }t_output_data;
 
 int ft_read_data(t_input_data *data);
