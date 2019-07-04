@@ -80,6 +80,12 @@ typedef struct s_queue_data
     t_list_queue *last_q_el;
 }t_queue_data;
 
+typedef struct s_output_data
+{
+    int nmb_path;
+    int *arr;
+}t_output_data;
+
 int ft_read_data(t_input_data *data);
 t_lst_vld_path *find_valid_path(t_input_data *data);
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path);

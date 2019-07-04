@@ -20,7 +20,7 @@ int ft_round(float x)
     return (x_int);
 }
 
-int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path)
+int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path, t_output_data *out)
 {
     int n;
     int prdct_b;
@@ -57,10 +57,6 @@ int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path)
 
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 {
-    int prdct;
-    t_lst_vld_path *crn_vld_pth;
-
-    crn_vld_pth = lst_vld_path;
-    prdct = cnt_x_for_every_valpath(data, lst_vld_path);
-    printf("prdct %d", prdct);
+    t_output_data out;
+    cnt_x_for_every_valpath(data, lst_vld_path, &out);
 }
