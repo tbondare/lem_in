@@ -55,37 +55,110 @@ int cnt_x_for_every_valpath(t_input_data *data, t_lst_vld_path *lst_vld_path)
     return (nmbr_path);
 }
 
-void output_ants(t_output_data *out)
+void move_ants(t_output_data *out)
 {
+    int i;
+    int j;
 
+    i = 0;
+    while (i < out->nmb_paths)
+    {
+        j = out->arr_paths[i].path_leng - 1;
+        while (j > 0)
+        {
+            out->arr_paths[i].path[j].ant_index = out->arr_paths[i].path[j - 1].ant_index;
+            j--;
+        }
+        i++;
+    }
+}
+
+void push_ants (t_input_data *data,t_output_data *out, int *ant_ind)
+{
+    int i;
+
+    i = 0;
+    while (i < out->nmb_paths)
+    {
+        if (*ant_ind <= data->cnt_ants)
+            out->arr_paths[i].path[0].ant_index = (*ant_ind)++;
+        else
+            out->arr_paths[i].path[0].ant_index = 0;
+        i++;
+    }
+}
+
+int print_ants(t_output_data *out)
+{
+    int i;
+    int j;
+    int flg;
+
+    i = 0;
+    flg = 0;
+    while (i < out->nmb_paths)
+    {
+        j = out->arr_paths[i].path_leng - 1;
+        while (j >= 0)
+        {
+            if (out->arr_paths[i].path[j].ant_index != 0)
+            {
+                printf("L%d-%s ", out->arr_paths[i].path[j].ant_index, out->arr_paths[i].path[j].name);
+                flg = 1;
+            }
+            j--;
+        }
+        i++;
+    }
+    printf("\n");
+    return (flg);
+}
+
+void output_ants(t_input_data *data,t_output_data *out)
+{
+    int flg;
+    int ant_ind;
+
+    flg = 1;
+    ant_ind = 1;
+    while (flg == 1)
+    {
+        move_ants(out);
+        push_ants(data, out, &ant_ind);
+        flg = print_ants(out);
+    }
 }
 
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 {
     int i;
     int j;
-    int nmbr_path;
     t_output_data out;
     t_lst_vld_path *crnt;
+    t_vld_path_elem *crnt_el;
 
     i = 0;
-    j = 0;
     crnt = lst_vld_path;
-    nmbr_path = cnt_x_for_every_valpath(data, lst_vld_path);
-    out.output = (t_output_data*)malloc(sizeof(t_output_data) * nmbr_path);
+    out.nmb_paths = cnt_x_for_every_valpath(data, lst_vld_path);
+    out.arr_paths = (t_out_path*)malloc(sizeof(t_out_path) * out.nmb_paths);
     while (crnt)
     {
-        out.output->arr = (char*)malloc(sizeof(char) * crnt->leng);
-        out.output->arr[i] = (char*)malloc(sizeof(char));
-        while (crnt->frst_path_el)
+        crnt_el = crnt->frst_path_el;
+        out.arr_paths[i].path = (t_out_room*)malloc(sizeof(t_out_room) * crnt->leng);
+        j = 0;
+        while (crnt_el)
         {
-            out.output->arr[j] = crnt->frst_path_el->room;
-            out.output->nmb_ants = crnt->x;
-            crnt->frst_path_el = crnt->frst_path_el->next;
+            out.arr_paths[i].path[j].name = crnt_el->room->name;
+            out.arr_paths[i].path[j].ant_index = 0;
+            out.arr_paths[i].nmb_ants = crnt->x;
+            out.arr_paths[i].path_leng = crnt->leng;
+            crnt_el = crnt_el->next;
             j++;
         }
+        out.arr_paths[i].path[j].name = data->end_room_name;
+        out.arr_paths[i].path[j].ant_index = 0;
         i++;
         crnt = crnt->next;
     }
-//    output_ants(out.output);
+    output_ants(data,&out);
 }

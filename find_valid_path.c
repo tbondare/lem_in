@@ -66,7 +66,7 @@ void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
     (*frst_vl_pth)->x = 0;
     (*frst_vl_pth)->next = mem_vld_path;
     (*frst_vl_pth)->frst_path_el = NULL;
-    (*frst_vl_pth)->leng = 2;
+    (*frst_vl_pth)->leng = 1;
     while (!crn_room->is_sart)
     {
         mem_path_el = (*frst_vl_pth)->frst_path_el;
@@ -108,6 +108,7 @@ t_lst_vld_path *find_valid_path(t_input_data *data)
             if (crn_rm_ln->linked_room->is_end == 1)
             {
                 save_val_path(&frst_vl_pth, queue.frst_queue_el->crn_room);
+                data->end_room_name = crn_rm_ln->linked_room->name;
                 printf("   save_val_path\n");
             }
             else if (crn_rm_ln->linked_room->was_in_room == 1)

@@ -47,6 +47,7 @@ typedef struct s_list_tubes
 typedef struct s_input_data
 {
     int cnt_ants;
+    char *end_room_name;
     t_list_rooms *frst_rm;
     t_list_tubes *frst_tb;
 
@@ -80,15 +81,23 @@ typedef struct s_queue_data
     t_list_queue *last_q_el;
 }t_queue_data;
 
-typedef struct s_out_data_el
+typedef struct s_out_room
+{
+    char *name;
+    int ant_index;
+}t_out_room;
+
+typedef struct s_out_path
 {
     int nmb_ants;
-    char *arr;
-}t_out_data_el;
+    int path_leng;
+    t_out_room *path;
+}t_out_path;
 
 typedef struct s_output_data
 {
-    t_out_data_el *output;
+    int nmb_paths;
+    t_out_path *arr_paths;
 }t_output_data;
 
 int ft_read_data(t_input_data *data);
