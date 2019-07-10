@@ -46,6 +46,7 @@ typedef struct s_list_tubes
 
 typedef struct s_input_data
 {
+    int flg_ants;
     int cnt_ants;
     char *end_room_name;
     t_list_rooms *frst_rm;

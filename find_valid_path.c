@@ -54,7 +54,7 @@ void add_come_from_room(t_list_rooms *come_from_rm, t_list_rooms *crnt_rm)
     cm_fr_el->next = NULL;
 }
 
-void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
+void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room, t_input_data *data)
 {
     t_lst_vld_path *mem_vld_path;
     t_vld_path_elem *mem_path_el;
@@ -67,6 +67,7 @@ void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room)
     (*frst_vl_pth)->next = mem_vld_path;
     (*frst_vl_pth)->frst_path_el = NULL;
     (*frst_vl_pth)->leng = 1;
+    data->flg_ants++;
     while (!crn_room->is_sart)
     {
         mem_path_el = (*frst_vl_pth)->frst_path_el;
@@ -92,6 +93,7 @@ t_lst_vld_path *find_valid_path(t_input_data *data)
     t_queue_data queue;
     t_links *crn_rm_ln;
     t_lst_vld_path *frst_vl_pth;
+    data->flg_ants = 0;
 
     queue.last_q_el = NULL;
     queue.frst_queue_el = NULL;
@@ -104,10 +106,12 @@ t_lst_vld_path *find_valid_path(t_input_data *data)
         crn_rm_ln = queue.frst_queue_el->crn_room->link;
         while (crn_rm_ln)
         {
+            if (data->flg_ants == data->cnt_ants)
+                return (frst_vl_pth);
             printf("   lnk_rm %s\n", crn_rm_ln->linked_room->name);
             if (crn_rm_ln->linked_room->is_end == 1)
             {
-                save_val_path(&frst_vl_pth, queue.frst_queue_el->crn_room);
+                save_val_path(&frst_vl_pth, queue.frst_queue_el->crn_room, data);
                 data->end_room_name = crn_rm_ln->linked_room->name;
                 printf("   save_val_path\n");
             }
