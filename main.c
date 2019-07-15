@@ -19,32 +19,62 @@ void add_tubes_to_rooms(t_input_data *data)
 {
     t_list_rooms *crnt_rm;
     t_list_tubes *frs_tb;
+    t_list_tubes *frst_tb_in;
     t_links      *oldlnk;
+    int cnt;
 
+    frs_tb = NULL;
+    oldlnk = NULL;
     crnt_rm = data->frst_rm;
     while(crnt_rm)
     {
-//        printf("crn_room %s\n", crnt_rm->name);
+        printf("crn_room %s\n", crnt_rm->name);
         frs_tb = data->frst_tb;
         while(frs_tb)
         {
             if (ft_strequ(crnt_rm->name, frs_tb->first) == 1)
             {
+                cnt = 0;
+                frst_tb_in = data->frst_tb;
+                while (frst_tb_in)
+                {
+                    if(ft_strequ(crnt_rm->name, frst_tb_in->first) == 1)
+                        cnt++;
+                    frst_tb_in = frst_tb_in->next_tb;
+                }
+                if (cnt > 1)
+                {
+                    frs_tb = frs_tb->next_tb;
+                    continue;
+                }
                 oldlnk = crnt_rm->link;
                 crnt_rm->link = (t_links*)malloc(sizeof(t_links));
                 crnt_rm->link->linked_room =
                         found_ptr_room_by_name(data, frs_tb->second);
                 crnt_rm->link->next = oldlnk;
-//                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
+                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
             }
             else if (ft_strequ (crnt_rm->name, frs_tb->second) == 1)
             {
+                cnt = 0;
+                frst_tb_in = data->frst_tb;
+                while (frst_tb_in)
+                {
+                    if(ft_strequ(crnt_rm->name, frst_tb_in->second) == 1)
+                        cnt++;
+                    frst_tb_in = frst_tb_in->next_tb;
+                }
+                if (cnt > 1)
+                {
+                    frs_tb = frs_tb->next_tb;
+                    continue;
+                }
                 oldlnk = crnt_rm->link;
                 crnt_rm->link = (t_links*)malloc(sizeof(t_links));
                 crnt_rm->link->linked_room =
                         found_ptr_room_by_name(data, frs_tb->first);
                 crnt_rm->link->next = oldlnk;
-//                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
+                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
             }
             frs_tb = frs_tb->next_tb;
         }

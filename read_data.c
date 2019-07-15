@@ -95,12 +95,12 @@ int try_read_room(char *line, t_input_data *data)
     return (0);
 }
 
-int find_same_room(t_input_data *data, char *name_rm)
+int is_room_exist(t_input_data *data, char *name_rm)
 {
     int cnt;
     t_list_rooms *cur_rm;
 
-    cnt =0;
+    cnt = 0;
     cur_rm = data->frst_rm;
     while (cur_rm != NULL)
     {
@@ -151,6 +151,7 @@ int try_read_tubes (char *line, t_input_data *data)
     char *name_rm;
 
     i = 0;
+    name_rm = NULL;
     if (line[0] == '#' || line[0] == 'L')
         return (0);
     while (line[i] != '\0' && line[i] != '-')
@@ -158,13 +159,13 @@ int try_read_tubes (char *line, t_input_data *data)
     if (line[i] != '-')
         return (0);
     name_rm = ft_strsub(line, 0, i);
-    if (find_same_room(data, name_rm) == 0)
+    if (is_room_exist(data, name_rm) == 0)
         return (-1);
     add_tb_to_list(data);
     data->frst_tb->first = name_rm;
     i++;
     name_rm = ft_strsub(line, i, ft_strlen(&line[i]));
-    if (find_same_room(data, name_rm) == 0)
+    if (is_room_exist(data, name_rm) == 0)
     {
         free_frst_tb(data);
         free(name_rm);
