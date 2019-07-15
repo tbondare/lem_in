@@ -101,13 +101,13 @@ t_lst_vld_path *find_valid_path(t_input_data *data)
     add_queue_el(&queue, find_start_room(data));
     while (queue.frst_queue_el)
     {
+        if (data->flg_ants == data->cnt_ants)
+            return (frst_vl_pth);
         printf("crn_rm %s\n", queue.frst_queue_el->crn_room->name);
         queue.frst_queue_el->crn_room->was_in_room = 1;
         crn_rm_ln = queue.frst_queue_el->crn_room->link;
         while (crn_rm_ln)
         {
-            if (data->flg_ants == data->cnt_ants)
-                return (frst_vl_pth);
             printf("   lnk_rm %s\n", crn_rm_ln->linked_room->name);
             if (crn_rm_ln->linked_room->is_end == 1)
             {

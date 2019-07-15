@@ -37,7 +37,7 @@ void add_tubes_to_rooms(t_input_data *data)
                 crnt_rm->link->next = oldlnk;
 //                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
             }
-            else if (ft_strequ (crnt_rm->name, frs_tb->second) == 1)
+            else if (ft_strequ(crnt_rm->name, frs_tb->second) == 1)
             {
                 oldlnk = crnt_rm->link;
                 crnt_rm->link = (t_links*)malloc(sizeof(t_links));
