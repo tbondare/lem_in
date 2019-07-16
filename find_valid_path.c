@@ -88,6 +88,18 @@ void save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room, t_input
     printf("leng %d", (*frst_vl_pth)->leng);
 }
 
+void del_queue(t_queue_data *queue)
+{
+    t_list_queue *mem_q;
+
+    while (queue->frst_queue_el)
+    {
+        mem_q = queue->frst_queue_el->next;
+        free(queue->frst_queue_el);
+        queue->frst_queue_el = mem_q;
+    }
+}
+
 t_lst_vld_path *find_valid_path(t_input_data *data)
 {
     t_queue_data queue;
@@ -103,10 +115,11 @@ t_lst_vld_path *find_valid_path(t_input_data *data)
     while (queue.frst_queue_el)
     {
         if (data->flg_ants == data->cnt_ants)
+        {
+            del_queue(&queue);
             return (frst_vl_pth);
+        }
         printf("crn_rm %s\n", queue.frst_queue_el->crn_room->name);
-        if (data->flg_ants == data->cnt_ants)
-            return (frst_vl_pth);
         queue.frst_queue_el->crn_room->was_in_room = 1;
         crn_rm_ln = queue.frst_queue_el->crn_room->link;
         while (crn_rm_ln)

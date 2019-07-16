@@ -1,5 +1,5 @@
 #include "libftlemin.h"
-//#include "stdio.h"
+#include "stdio.h"
 
 t_list_rooms *found_ptr_room_by_name(t_input_data *data, char *name)
 {
@@ -15,13 +15,25 @@ t_list_rooms *found_ptr_room_by_name(t_input_data *data, char *name)
     return (0);
 }
 
+int is_same_link(t_links *lnk, char *name)
+{
+    t_links *crn_lnk;
+
+    crn_lnk = lnk;
+    while (crn_lnk)
+    {
+        if (ft_strequ(crn_lnk->linked_room->name, name) == 1)
+            return (1);
+        crn_lnk = crn_lnk->next;
+    }
+    return(0);
+}
+
 void add_tubes_to_rooms(t_input_data *data)
 {
     t_list_rooms *crnt_rm;
     t_list_tubes *frs_tb;
-    t_list_tubes *frst_tb_in;
     t_links      *oldlnk;
-    int cnt;
 
     frs_tb = NULL;
     oldlnk = NULL;
@@ -34,15 +46,7 @@ void add_tubes_to_rooms(t_input_data *data)
         {
             if (ft_strequ(crnt_rm->name, frs_tb->first) == 1)
             {
-                cnt = 0;
-                frst_tb_in = data->frst_tb;
-                while (frst_tb_in)
-                {
-                    if(ft_strequ(crnt_rm->name, frst_tb_in->first) == 1)
-                        cnt++;
-                    frst_tb_in = frst_tb_in->next_tb;
-                }
-                if (cnt > 1)
+                if (is_same_link(crnt_rm->link, frs_tb->second) == 1)
                 {
                     frs_tb = frs_tb->next_tb;
                     continue;
@@ -56,15 +60,7 @@ void add_tubes_to_rooms(t_input_data *data)
             }
             else if (ft_strequ(crnt_rm->name, frs_tb->second) == 1)
             {
-                cnt = 0;
-                frst_tb_in = data->frst_tb;
-                while (frst_tb_in)
-                {
-                    if(ft_strequ(crnt_rm->name, frst_tb_in->second) == 1)
-                        cnt++;
-                    frst_tb_in = frst_tb_in->next_tb;
-                }
-                if (cnt > 1)
+                if (is_same_link(crnt_rm->link, frs_tb->first) == 1)
                 {
                     frs_tb = frs_tb->next_tb;
                     continue;
@@ -80,6 +76,74 @@ void add_tubes_to_rooms(t_input_data *data)
         }
         crnt_rm = crnt_rm->next_rm;
     }
+}
+
+void del_el_val_path(t_vld_path_elem *frs_el)
+{
+    t_vld_path_elem *crn_fst_el;
+
+    while (frs_el)
+    {
+        crn_fst_el = frs_el->next;
+        free(frs_el);
+        frs_el = crn_fst_el;
+    }
+}
+void del_rm_lnks(t_links *rm_lnk)
+{
+    t_links *mem_rm_lnk;
+
+    while (rm_lnk)
+    {
+        mem_rm_lnk = rm_lnk->next;
+        free(rm_lnk);
+        rm_lnk = mem_rm_lnk;
+    }
+}
+
+void del_rm_from(t_ls_come_from *from)
+{
+    t_ls_come_from *mem_frm;
+
+    while (from)
+    {
+        mem_frm = from->next;
+        free(from);
+        from = mem_frm;
+    }
+}
+
+void free_mem(t_input_data *data, t_lst_vld_path *lst_vld_path)
+{
+    t_lst_vld_path *frs_el;
+    t_list_rooms *crn_rm;
+    t_list_tubes *crn_tbs;
+
+    while (lst_vld_path)
+    {
+        frs_el = lst_vld_path->next;
+        del_el_val_path(lst_vld_path->frst_path_el);
+        free(lst_vld_path);
+        lst_vld_path = frs_el;
+    }
+    while (data->frst_rm)
+    {
+        crn_rm = data->frst_rm->next_rm;
+        del_rm_from(data->frst_rm->from);
+        del_rm_lnks(data->frst_rm->link);
+        free(data->frst_rm->name);
+        free(data->frst_rm);
+        data->frst_rm = crn_rm;
+    }
+    while (data->frst_tb)
+    {
+        crn_tbs = data->frst_tb->next_tb;
+        free(data->frst_tb->first);
+        free(data->frst_tb->second);
+        free(data->frst_tb);
+        data->frst_tb = crn_tbs;
+    }
+
 }
 
 int main()
@@ -98,5 +162,6 @@ int main()
     add_tubes_to_rooms(&data);
     lst_vld_path = find_valid_path(&data);
     run_ants(&data, lst_vld_path);
+    free_mem(&data, lst_vld_path);
     return 0;
 }

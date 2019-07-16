@@ -185,13 +185,20 @@ int try_read_comment(char *line, t_input_data *data, int fd)
         return (1);
     fl = line[2];
     if (get_next_line(fd, &line) <= 0)
+    {
+        free(line);
         return (-1);
+    }
     if (try_read_room(line, data) != 1)
+    {
+        free(line);
         return (-1);
+    }
     if (fl == 's')
         data->frst_rm->is_sart = 1;
     else
         data->frst_rm->is_end = 1;
+    free(line);
     return (1);
 }
 
@@ -205,17 +212,34 @@ int ft_read_data(t_input_data *data)
     while (get_next_line(fd, &line) > 0)
     {
         if (try_read_cnt_ants(line, data) == 1)
+        {
+            free(line);
             continue ;
+        }
         if (try_read_room(line, data) == 1)
+        {
+            free(line);
             continue ;
+        }
         i = try_read_tubes(line, data);
         if (i == 1)
+        {
+            free(line);
             continue ;
+        }
         else if (i == -1)
+        {
+            free(line);
             return (-1);
+        }
         if (try_read_comment(line, data, fd) == 1)
+        {
+            free(line);
             continue ;
+        }
+        free(line);
         return (-1);
     }
+    free(line);
     return (0);
 }

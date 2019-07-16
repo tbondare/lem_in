@@ -77,14 +77,21 @@ void push_ants (t_input_data *data,t_output_data *out, int *ant_ind)
 {
     int i;
 
-    i = 0;
-    while (i < out->nmb_paths)
+    i = out->nmb_paths - 1;
+    while (i >= 0)
     {
+        if (out->arr_paths[i].nmb_ants == 0)
+        {
+            out->arr_paths[i].path[0].ant_index = 0;
+            i--;
+            continue;
+        }
         if (*ant_ind <= data->cnt_ants)
             out->arr_paths[i].path[0].ant_index = (*ant_ind)++;
         else
             out->arr_paths[i].path[0].ant_index = 0;
-        i++;
+        i--;
+        out->arr_paths[i].nmb_ants--;
     }
 }
 
@@ -94,9 +101,9 @@ int print_ants(t_output_data *out)
     int j;
     int flg;
 
-    i = 0;
+    i = out->nmb_paths - 1;
     flg = 0;
-    while (i < out->nmb_paths)
+    while (i >= 0)
     {
         j = out->arr_paths[i].path_leng - 1;
         while (j >= 0)
@@ -108,7 +115,7 @@ int print_ants(t_output_data *out)
             }
             j--;
         }
-        i++;
+        i--;
     }
     printf("\n");
     return (flg);
@@ -127,6 +134,19 @@ void output_ants(t_input_data *data,t_output_data *out)
         push_ants(data, out, &ant_ind);
         flg = print_ants(out);
     }
+}
+
+void del_arr_path(t_output_data *out)
+{
+    int i;
+
+    i = 0;
+    while (i < out->nmb_paths)
+    {
+        free(out->arr_paths[i].path);
+        i++;
+    }
+    free(out->arr_paths);
 }
 
 void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
@@ -161,4 +181,5 @@ void run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
         crnt = crnt->next;
     }
     output_ants(data,&out);
+    del_arr_path(&out);
 }
