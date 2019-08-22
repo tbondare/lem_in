@@ -90,8 +90,8 @@ void push_ants (t_input_data *data,t_output_data *out, int *ant_ind)
             out->arr_paths[i].path[0].ant_index = (*ant_ind)++;
         else
             out->arr_paths[i].path[0].ant_index = 0;
-        i--;
         out->arr_paths[i].nmb_ants--;
+        i--;
     }
 }
 

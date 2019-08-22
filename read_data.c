@@ -8,10 +8,20 @@ int try_read_cnt_ants(char *line, t_input_data *data)
     i = 0;
     while (line[i] != '\0' && ft_isdigit(line[i]) == 1)
         i++;
-    if (line[i] == '\0')
+    if (line[i] == '\0' && i > 0)
     {
         data->cnt_ants = ft_atoi(line);
+        if (data->cnt_ants == 0)
+        {
+            free(line);
+            exit (0);
+        }
         return (1);
+    }
+    else if (line [i] == '\0' && i == 0)
+    {
+        free(line);
+        exit (0);
     }
     return (0);
 }
@@ -208,7 +218,7 @@ int ft_read_data(t_input_data *data)
     int i;
     int fd;
 
-    fd = open("input_data", O_RDONLY);
+    fd = open("imp2", O_RDONLY);
     while (get_next_line(fd, &line) > 0)
     {
         if (try_read_cnt_ants(line, data) == 1)
@@ -240,6 +250,6 @@ int ft_read_data(t_input_data *data)
         free(line);
         return (-1);
     }
-    free(line);
+        free(line);
     return (0);
 }

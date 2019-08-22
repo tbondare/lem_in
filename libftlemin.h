@@ -6,6 +6,7 @@
 #define LEM_IN_LIBFTLEMIN_H
 
 # include"libft/libft.h"
+# include <stdlib.h>
 
 struct s_links;
 struct s_ls_come_from;

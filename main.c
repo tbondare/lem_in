@@ -113,19 +113,19 @@ void del_rm_from(t_ls_come_from *from)
     }
 }
 
-void free_mem(t_input_data *data, t_lst_vld_path *lst_vld_path)
+void free_mem(t_input_data *data)
 {
-    t_lst_vld_path *frs_el;
+//    t_lst_vld_path *frs_el;
     t_list_rooms *crn_rm;
     t_list_tubes *crn_tbs;
 
-    while (lst_vld_path)
-    {
-        frs_el = lst_vld_path->next;
-        del_el_val_path(lst_vld_path->frst_path_el);
-        free(lst_vld_path);
-        lst_vld_path = frs_el;
-    }
+//    while (lst_vld_path)
+//    {
+//        frs_el = lst_vld_path->next;
+//        del_el_val_path(lst_vld_path->frst_path_el);
+//        free(lst_vld_path);
+//        lst_vld_path = frs_el;
+//    }
     while (data->frst_rm)
     {
         crn_rm = data->frst_rm->next_rm;
@@ -146,6 +146,19 @@ void free_mem(t_input_data *data, t_lst_vld_path *lst_vld_path)
 
 }
 
+void free_mem_val_path(t_lst_vld_path *lst_vld_path)
+{
+    t_lst_vld_path *frs_el;
+
+    while (lst_vld_path)
+    {
+        frs_el = lst_vld_path->next;
+        del_el_val_path(lst_vld_path->frst_path_el);
+        free(lst_vld_path);
+        lst_vld_path = frs_el;
+    }
+}
+
 int main()
 {
     t_input_data data;
@@ -156,12 +169,13 @@ int main()
     data.cnt_ants = -1;
     if (ft_read_data(&data) == -1 || data.cnt_ants == -1)
     {
-        //TODO:error;
-        return (0);
+        free_mem(&data);
+        exit(0);
     }
     add_tubes_to_rooms(&data);
     lst_vld_path = find_valid_path(&data);
     run_ants(&data, lst_vld_path);
-    free_mem(&data, lst_vld_path);
+    free_mem_val_path(lst_vld_path);
+    free_mem(&data);
     return 0;
 }
