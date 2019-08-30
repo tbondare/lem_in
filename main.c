@@ -29,6 +29,32 @@ int is_same_link(t_links *lnk, char *name)
     return(0);
 }
 
+void helper_f_add_tbs(t_input_data *data, t_list_tubes *frs_tb, t_list_rooms **crnt_rm)
+{
+    char *b;
+     t_links *oldlnk;
+
+    oldlnk = NULL;
+    while (frs_tb)
+    {
+        if (ft_strequ((*crnt_rm)->name, frs_tb->first) == 1)
+            b = frs_tb->second;
+        else if (ft_strequ((*crnt_rm)->name, frs_tb->second) == 1)
+            b = frs_tb->first;
+        else
+        {
+            frs_tb = frs_tb->next_tb;
+            continue;
+        }
+        oldlnk = (*crnt_rm)->link;
+        (*crnt_rm)->link = (t_links *)malloc(sizeof(t_links));
+        (*crnt_rm)->link->linked_room = found_ptr_room_by_name(data, b);
+        (*crnt_rm)->link->next = oldlnk;
+        printf("lnk_room %s\n", (*crnt_rm)->link->linked_room->name);
+        frs_tb = frs_tb->next_tb;
+    }
+}
+
 void add_tubes_to_rooms(t_input_data *data)
 {
     t_list_rooms *crnt_rm;
@@ -42,120 +68,8 @@ void add_tubes_to_rooms(t_input_data *data)
     {
         printf("crn_room %s\n", crnt_rm->name);
         frs_tb = data->frst_tb;
-        while(frs_tb)
-        {
-            if (ft_strequ(crnt_rm->name, frs_tb->first) == 1)
-            {
-                if (is_same_link(crnt_rm->link, frs_tb->second) == 1)
-                {
-                    frs_tb = frs_tb->next_tb;
-                    continue;
-                }
-                oldlnk = crnt_rm->link;
-                crnt_rm->link = (t_links*)malloc(sizeof(t_links));
-                crnt_rm->link->linked_room =
-                        found_ptr_room_by_name(data, frs_tb->second);
-                crnt_rm->link->next = oldlnk;
-                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
-            }
-            else if (ft_strequ(crnt_rm->name, frs_tb->second) == 1)
-            {
-                if (is_same_link(crnt_rm->link, frs_tb->first) == 1)
-                {
-                    frs_tb = frs_tb->next_tb;
-                    continue;
-                }
-                oldlnk = crnt_rm->link;
-                crnt_rm->link = (t_links*)malloc(sizeof(t_links));
-                crnt_rm->link->linked_room =
-                        found_ptr_room_by_name(data, frs_tb->first);
-                crnt_rm->link->next = oldlnk;
-                printf("lnk_room %s\n", crnt_rm->link->linked_room->name);
-            }
-            frs_tb = frs_tb->next_tb;
-        }
+        helper_f_add_tbs(data, frs_tb, &crnt_rm);
         crnt_rm = crnt_rm->next_rm;
-    }
-}
-
-void del_el_val_path(t_vld_path_elem *frs_el)
-{
-    t_vld_path_elem *crn_fst_el;
-
-    while (frs_el)
-    {
-        crn_fst_el = frs_el->next;
-        free(frs_el);
-        frs_el = crn_fst_el;
-    }
-}
-void del_rm_lnks(t_links *rm_lnk)
-{
-    t_links *mem_rm_lnk;
-
-    while (rm_lnk)
-    {
-        mem_rm_lnk = rm_lnk->next;
-        free(rm_lnk);
-        rm_lnk = mem_rm_lnk;
-    }
-}
-
-void del_rm_from(t_ls_come_from *from)
-{
-    t_ls_come_from *mem_frm;
-
-    while (from)
-    {
-        mem_frm = from->next;
-        free(from);
-        from = mem_frm;
-    }
-}
-
-void free_mem(t_input_data *data)
-{
-//    t_lst_vld_path *frs_el;
-    t_list_rooms *crn_rm;
-    t_list_tubes *crn_tbs;
-
-//    while (lst_vld_path)
-//    {
-//        frs_el = lst_vld_path->next;
-//        del_el_val_path(lst_vld_path->frst_path_el);
-//        free(lst_vld_path);
-//        lst_vld_path = frs_el;
-//    }
-    while (data->frst_rm)
-    {
-        crn_rm = data->frst_rm->next_rm;
-        del_rm_from(data->frst_rm->from);
-        del_rm_lnks(data->frst_rm->link);
-        free(data->frst_rm->name);
-        free(data->frst_rm);
-        data->frst_rm = crn_rm;
-    }
-    while (data->frst_tb)
-    {
-        crn_tbs = data->frst_tb->next_tb;
-        free(data->frst_tb->first);
-        free(data->frst_tb->second);
-        free(data->frst_tb);
-        data->frst_tb = crn_tbs;
-    }
-
-}
-
-void free_mem_val_path(t_lst_vld_path *lst_vld_path)
-{
-    t_lst_vld_path *frs_el;
-
-    while (lst_vld_path)
-    {
-        frs_el = lst_vld_path->next;
-        del_el_val_path(lst_vld_path->frst_path_el);
-        free(lst_vld_path);
-        lst_vld_path = frs_el;
     }
 }
 
