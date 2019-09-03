@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 16:04:18 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/30 20:29:02 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:29:52 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct				s_input_data
 typedef struct				s_vld_path_elem
 {
 	t_list_rooms			*room;
+	int						i;
 	struct s_vld_path_elem	*next;
 }							t_vld_path_elem;
 
@@ -110,23 +111,66 @@ typedef struct				s_output_data
 }							t_output_data;
 
 t_list_rooms				*find_start_room(t_input_data *data);
-void						add_queue_el(t_queue_data *que, t_list_rooms *el_que);
+void						add_queue_el(t_queue_data *que,
+		t_list_rooms *el_que);
 void						del_first_queue_el(t_queue_data *queue);
-void						add_come_from_room(t_list_rooms *come_from_rm, t_list_rooms *crnt_rm);
+void						add_come_from_room(t_list_rooms *come_from_rm,
+		t_list_rooms *crnt_rm);
 void						del_queue(t_queue_data *queue);
 
 void						whl_f_save_vl_path(t_list_rooms *crn_room);
-void						save_val_path(t_lst_vld_path **frst_vl_pth, t_list_rooms *crn_room, t_input_data *data);
-void						els_f_whl_fnd_vl_path(t_links *crn_rm_ln, t_queue_data **queue);
-void						whl_f_find_val_path(t_input_data *data, t_links *crn_rm_ln, t_queue_data *queue, t_lst_vld_path **frst_vl_pth);
+void						save_val_path(t_lst_vld_path **frst_vl_pth,
+		t_list_rooms *crn_room, t_input_data *data);
+void						els_f_whl_fnd_vl_path(t_links *crn_rm_ln,
+		t_queue_data **queue);
+void						whl_f_find_val_path(t_input_data *data,
+		t_links *crn_rm_ln,
+		t_queue_data *queue, t_lst_vld_path **frst_vl_pth);
 t_lst_vld_path				*find_valid_path(t_input_data *data);
 
-void del_el_val_path(t_vld_path_elem *frs_el);
-void del_rm_lnks(t_links *rm_lnk);
-void del_rm_from(t_ls_come_from *from);
-void free_mem(t_input_data *data);
-void free_mem_val_path(t_lst_vld_path *lst_vld_path);
+void						del_el_val_path(t_vld_path_elem *frs_el);
+void						del_rm_lnks(t_links *rm_lnk);
+void						del_rm_from(t_ls_come_from *from);
+void						free_mem(t_input_data *data);
+void						free_mem_val_path(t_lst_vld_path *lst_vld_path);
 
+t_list_rooms				*found_ptr_room_by_name(t_input_data *data,
+		char *name);
+int							is_same_link(t_links *lnk, char *name);
+void						helper_f_add_tbs(t_input_data *data,
+		t_list_tubes *frs_tb, t_list_rooms **crnt_rm);
+void						add_tubes_to_rooms(t_input_data *data);
+int							main(void);
 
+void						init_room(char *line, t_input_data *data);
+void						add_new_rm(t_input_data *data, t_list_rooms **new);
+void						add_rm_to_list(t_input_data *data);
+int							is_room_exist(t_input_data *data, char *name_rm);
+void						add_tb_to_list(t_input_data *data);
 
+int							try_read_cnt_ants(char *line, t_input_data *data);
+int							try_read_room(char *line, t_input_data *data);
+int							try_read_tubes (char *line, t_input_data *data);
+int							try_read_comment(char *line, t_input_data *data,
+		int fd);
+
+void						free_frst_tb(t_input_data *data);
+int							ft_read_data(t_input_data *data);
+
+int							ft_round(float x);
+void						round(t_input_data *data, t_lst_vld_path **crnt,
+		int sum_y);
+int							cnt_x_for_every_valpath(t_input_data *data,
+		t_lst_vld_path *lst_vld_path);
+void						move_ants(t_output_data *out);
+void						push_ants (t_input_data *data, t_output_data *out,
+		int *ant_ind);
+
+int							print_ants(t_output_data *out);
+void						output_ants(t_input_data *data, t_output_data *out);
+void						del_arr_path(t_output_data *out);
+void						inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
+		t_output_data *out, t_lst_vld_path *crnt, int *j);
+void						run_ants(t_input_data *data,
+		t_lst_vld_path *lst_vld_path);
 #endif
