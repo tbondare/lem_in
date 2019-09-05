@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftlemin.h"
-#include "stdio.h"
 
 int		print_ants(t_output_data *out)
 {
@@ -28,7 +27,7 @@ int		print_ants(t_output_data *out)
 		{
 			if (out->arr_paths[i].path[j].ant_index != 0)
 			{
-				printf("L%d-%s ", out->arr_paths[i].path[j].ant_index,
+				ft_printf("L%d-%s ", out->arr_paths[i].path[j].ant_index,
 						out->arr_paths[i].path[j].name);
 				flg = 1;
 			}
@@ -36,7 +35,7 @@ int		print_ants(t_output_data *out)
 		}
 		i--;
 	}
-	printf("\n");
+	ft_printf("\n");
 	return (flg);
 }
 

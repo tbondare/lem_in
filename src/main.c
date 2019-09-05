@@ -92,10 +92,17 @@ int				main(void)
 	if (ft_read_data(&data) == -1 || data.cnt_ants == -1)
 	{
 		free_mem(&data);
+		ft_printf("Failed to read data: ants quantity not found\n");
 		exit(0);
 	}
 	add_tubes_to_rooms(&data);
 	lst_vld_path = find_valid_path(&data);
+	if (lst_vld_path == NULL)
+	{
+		free_mem(&data);
+		ft_printf("Valid paths didn't found\n");
+		exit(1);
+	}
 	run_ants(&data, lst_vld_path);
 	free_mem_val_path(lst_vld_path);
 	free_mem(&data);

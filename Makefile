@@ -20,4 +20,3 @@ LIB = $(LIB_DIR)libft.a
 
 SRC = 
 
-

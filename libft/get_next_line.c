@@ -91,9 +91,9 @@ static	int		ft_bf_not_n(size_t *b, t_param param, char *buf, const int fd)
 
 static	int		ft_g_n_l(const int fd, t_param param, t_lst **fr, size_t arr[2])
 {
-	char	*str;
 	char	buf[BUFF_SIZE];
 
+	ft_memset(buf, 0, BUFF_SIZE);
 	arr[1] = read(fd, buf, BUFF_SIZE);
 	if (arr[1] == 0)
 	{
@@ -104,9 +104,9 @@ static	int		ft_g_n_l(const int fd, t_param param, t_lst **fr, size_t arr[2])
 		arr[0]++;
 	if (buf[arr[0]] == '\n' && arr[0] != arr[1])
 	{
-		IF_NU((str = ft_strsub(buf, 0, arr[0])));
-		IF_NU((*param.line = ft_strjoin(param.crnt->var, str)));
-		free(str);
+		IF_NU((param.str = ft_strsub(buf, 0, arr[0])));
+		IF_NU((*param.line = ft_strjoin(param.crnt->var, param.str)));
+		free(param.str);
 		if (arr[1] >= arr[0]++)
 		{
 			free(param.crnt->var);

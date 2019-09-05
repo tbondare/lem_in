@@ -14,7 +14,9 @@
 # define LEM_IN_LIBFTLEMIN_H
 
 # include "libft/libft.h"
+# include "libft/ft_printf/inc/libftprintf.h"
 # include <stdlib.h>
+# include <stdio.h>
 
 struct s_links;
 struct s_ls_come_from;
@@ -158,8 +160,8 @@ void						free_frst_tb(t_input_data *data);
 int							ft_read_data(t_input_data *data);
 
 int							ft_round(float x);
-void						round(t_input_data *data, t_lst_vld_path **crnt,
-		int sum_y);
+void						round_ants(t_input_data *data, t_lst_vld_path **crnt,
+                                       int sum_y);
 int							cnt_x_for_every_valpath(t_input_data *data,
 		t_lst_vld_path *lst_vld_path);
 void						move_ants(t_output_data *out);

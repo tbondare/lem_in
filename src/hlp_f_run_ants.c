@@ -31,7 +31,7 @@ int		ft_round(float x)
 	return (x_int);
 }
 
-void	round(t_input_data *data, t_lst_vld_path **crnt, int sum_y)
+void	round_ants(t_input_data *data, t_lst_vld_path **crnt, int sum_y)
 {
 	while (*crnt)
 	{
@@ -66,7 +66,7 @@ int		cnt_x_for_every_valpath(t_input_data *data,
 		crnt = crnt->next;
 	}
 	crnt = lst_vld_path;
-	round(data, &crnt, sum_y);
+    round_ants(data, &crnt, sum_y);
 	return (nmbr_path);
 }
 

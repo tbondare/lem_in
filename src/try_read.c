@@ -25,6 +25,7 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 		if (data->cnt_ants == 0)
 		{
 			free(line);
+			ft_printf("ants quantity = 0\n");
 			exit(0);
 		}
 		return (1);
@@ -32,6 +33,7 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 	else if (line[i] == '\0' && i == 0)
 	{
 		free(line);
+		ft_printf("failed to read ants quantity\n");
 		exit(0);
 	}
 	return (0);
@@ -106,12 +108,14 @@ int	try_read_comment(char *line, t_input_data *data, int fd)
 	if (get_next_line(fd, &line) <= 0)
 	{
 		free(line);
-		return (-1);
+		ft_printf("Failed to read string after ##start or ##end\n");
+		exit(1);
 	}
 	if (try_read_room(line, data) != 1)
 	{
 		free(line);
-		return (-1);
+		ft_printf("Failed to read room after ##start or ##end\n");
+		exit(1);
 	}
 	if (fl == 's')
 		data->frst_rm->is_sart = 1;

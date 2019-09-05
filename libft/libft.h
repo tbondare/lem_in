@@ -29,6 +29,7 @@ typedef struct		s_param
 	char			**line;
 	struct s_lst	*crnt;
 	int				res;
+	char 			*str;
 }					t_param;
 
 typedef	struct		s_lst

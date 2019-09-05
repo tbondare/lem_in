@@ -29,7 +29,8 @@ int		ft_read_data(t_input_data *data)
 	char	*line;
 	int		fd;
 
-	fd = open("input_data2.txt", O_RDONLY);
+//	fd = 0;
+	fd = open("input_data3.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (try_read_cnt_ants(line, data) == 1 ||
@@ -42,8 +43,9 @@ int		ft_read_data(t_input_data *data)
 		}
 		else
 		{
+			ft_printf("failed to read tubs %s: room is't defined\n", line);
 			free(line);
-			return (-1);
+			exit(1);
 		}
 	}
 	free(line);

@@ -12,7 +12,7 @@
 
 NAME = libft.a
 
-INC = -I ./ft_printf/inc
+//INC = -I ./ft_printf/inc
 
 PRINTF_DIR = ft_printf/
 
