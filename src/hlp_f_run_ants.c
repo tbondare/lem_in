@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 18:27:05 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/03 15:04:29 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/15 19:34:15 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		cnt_x_for_every_valpath(t_input_data *data,
 		crnt = crnt->next;
 	}
 	crnt = lst_vld_path;
-    round_ants(data, &crnt, sum_y);
+	round_ants(data, &crnt, sum_y);
 	return (nmbr_path);
 }
 

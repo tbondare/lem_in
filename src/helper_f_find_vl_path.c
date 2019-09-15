@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 16:39:19 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/23 16:45:15 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/15 19:29:12 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_list_rooms	*find_start_room(t_input_data *data)
 		crn_room = crn_room->next_rm;
 	if (crn_room->is_sart != 1 && crn_room->next_rm == NULL)
 	{
-		//TODO:error;
-		return (0);
+		ft_printf("Input data isn't correct: there isn't start room");
+		exit(1);
 	}
 	return (crn_room);
 }

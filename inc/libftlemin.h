@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 16:04:18 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/03 16:29:52 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/15 19:38:41 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ void						free_frst_tb(t_input_data *data);
 int							ft_read_data(t_input_data *data);
 
 int							ft_round(float x);
-void						round_ants(t_input_data *data, t_lst_vld_path **crnt,
-                                       int sum_y);
+void						round_ants(t_input_data *data,
+		t_lst_vld_path **crnt, int sum_y);
 int							cnt_x_for_every_valpath(t_input_data *data,
 		t_lst_vld_path *lst_vld_path);
 void						move_ants(t_output_data *out);

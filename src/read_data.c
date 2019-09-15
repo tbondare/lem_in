@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 16:48:56 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/31 18:24:19 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/15 20:00:24 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int		ft_read_data(t_input_data *data)
 	char	*line;
 	int		fd;
 
-//	fd = 0;
-	fd = open("input_data3.txt", O_RDONLY);
+	fd = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (try_read_cnt_ants(line, data) == 1 ||
