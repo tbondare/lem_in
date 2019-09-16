@@ -93,7 +93,6 @@ int	ft_cnt_i_d_u_ua_c(t_fl_tp *lst)
 	else if (check_fl(lst->typ, g_tp_c) && check_fl(lst->md_len, g_ln_l))
 	{
 		n = lst->val.win;
-		n = n < 0 ? -n : n;
 		while (n)
 		{
 			n = n / 10;

@@ -23,7 +23,7 @@ int		check_sign_dif_tp(t_fl_tp *lst)
 	else if (check_fl(lst->typ, g_tp_u | g_tp_ua))
 		return (0);
 	else if (check_fl(lst->typ, g_tp_c) && check_fl(lst->md_len, g_ln_l))
-		return (lst->val.win < 0);
+		return (0);
 	return (0);
 }
 

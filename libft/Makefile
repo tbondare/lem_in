@@ -23,7 +23,6 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		make -C ./ft_printf
 		ar rc $(NAME) $(OBJ)
 		ranlib $(NAME)
 

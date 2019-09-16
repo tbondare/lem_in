@@ -92,7 +92,6 @@ void	outp_c_l(t_fl_tp *lst, char *newstr, int *mem_w)
 	lc = localeconv();
 	i = 0;
 	lst->val.win == 0 ? newstr[*mem_w] = '0' : 0;
-	lst->val.win = lst->val.win < 0 ? -lst->val.win : lst->val.win;
 	while (lst->val.win)
 	{
 		if (check_fl(lst->flg, g_fl_quo) && i != 0 && i % 3 == 0 &&

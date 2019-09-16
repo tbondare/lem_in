@@ -14,7 +14,13 @@ NAME = lem-in
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
-INC_DIR = ./inc/
+INC_DIR = ./inc/ -I ./
+
+LIBFT = ./libft
+LIBFTA = $(LIBFT)/libft.a
+
+PRINTF = ./libft/ft_printf
+PRINTFA = $(PRINTF)/libftprintf.a
 
 SRC = main.c find_valid_path.c ft_free_mem.c helper_f_find_vl_path.c hlp_f_run_ants.c hlpr_f_try_read.c read_data.c run_ants.c try_read.c
 
@@ -23,9 +29,8 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		make -C ./libft
-		ar rc $(NAME) $(OBJ)
-		ranlib $(NAME)
+		make -C $(PRINTF)
+		gcc -Wall -Wextra -Werror -o $(NAME) $(OBJ) $(PRINTFA) $(LIBFTA)
 
 $(OBJ): | $(OBJ_DIR)
 
