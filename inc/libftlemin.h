@@ -6,15 +6,15 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 16:04:18 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/15 19:38:41 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/16 18:43:07 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_LIBFTLEMIN_H
 # define LEM_IN_LIBFTLEMIN_H
 
-# include "libft/libft.h"
-# include "libft/ft_printf/inc/libftprintf.h"
+# include "./libft/inc/libft.h"
+# include "./libft/ft_printf/inc/libftprintf.h"
 # include <stdlib.h>
 # include <stdio.h>
 
