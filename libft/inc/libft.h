@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 14:16:44 by tbondare          #+#    #+#             */
-/*   Updated: 2017/12/02 18:19:50 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:13:39 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct		s_param
 	char			**line;
 	struct s_lst	*crnt;
 	int				res;
-	char 			*str;
+	char			*str;
 }					t_param;
 
 typedef	struct		s_lst
