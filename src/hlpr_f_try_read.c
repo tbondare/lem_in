@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftlemin.h"
+#include "./inc/libftlemin.h"
 
 void	init_room(char *line, t_input_data *data)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftlemin.h"
+#include "./inc/libftlemin.h"
 
 int		ft_round(float x)
 {

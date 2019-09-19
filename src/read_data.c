@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftlemin.h"
+#include "./inc/libftlemin.h"
 #include <fcntl.h>
 
 void	free_frst_tb(t_input_data *data)
@@ -29,10 +29,12 @@ int		ft_read_data(t_input_data *data)
 	char	*line;
 	int		fd;
 
-	fd = 0;
+//	fd = 0;
+	line = NULL;
+	fd = open("input_data.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (try_read_cnt_ants(line, data) == 1 ||
+		if(try_read_cnt_ants(line, data) == 1 ||
 				try_read_room(line, data) == 1 ||
 				try_read_comment(line, data, fd) == 1 ||
 				try_read_tubes(line, data) == 1)

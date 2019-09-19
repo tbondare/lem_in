@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftlemin.h"
+#include "./inc/libftlemin.h"
 
 void	del_el_val_path(t_vld_path_elem *frs_el)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftlemin.h"
+#include "./inc/libftlemin.h"
 
 t_list_rooms	*found_ptr_room_by_name(t_input_data *data, char *name)
 {
