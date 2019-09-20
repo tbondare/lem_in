@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:56:51 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/03 16:07:07 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/20 15:47:59 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		print_ants(t_output_data *out)
 		i--;
 	}
 	if (flg == 1)
-		ft_printf("!\n");
+		ft_printf("! \n");
 	return (flg);
 }
 
@@ -44,14 +44,18 @@ void	output_ants(t_input_data *data, t_output_data *out)
 {
 	int flg;
 	int ant_ind;
+	int cnt;
 
 	flg = 1;
 	ant_ind = 1;
+	cnt = 0;
 	while (flg == 1)
 	{
+		cnt++;
 		move_ants(out);
 		push_ants(data, out, &ant_ind);
 		flg = print_ants(out);
+		ft_printf("%d\n", cnt);
 	}
 }
 
@@ -69,7 +73,7 @@ void	del_arr_path(t_output_data *out)
 }
 
 void	inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
-		t_output_data *out, t_lst_vld_path *crnt, int *j)
+		t_output_data *out, int *j)
 {
 	int i;
 
@@ -166,7 +170,7 @@ void	run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 		if (crnt->leng > 1)
 		{
 			crnt_el->i = i;
-			inner_whl_f_run_ants(crnt_el, &out, crnt, &j);
+			inner_whl_f_run_ants(crnt_el, &out, &j);
 		}
 		else
 			print_ants_in_one_line(data->cnt_ants, data->end_room_name);

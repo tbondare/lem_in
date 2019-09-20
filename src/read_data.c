@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 16:48:56 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/15 20:00:24 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/20 15:30:26 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_read_data(t_input_data *data)
 
 //	fd = 0;
 	line = NULL;
-	fd = open("input_data.txt", O_RDONLY);
+	fd = open("t.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		if(try_read_cnt_ants(line, data) == 1 ||

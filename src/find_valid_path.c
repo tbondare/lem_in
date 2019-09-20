@@ -85,11 +85,23 @@ void			els_f_whl_fnd_vl_path(t_links *crn_rm_ln,
 
 int check_is_val_path(t_list_rooms *crn_room)
 {
+    t_ls_come_from *crnt_frome;
+
 	while (!crn_room->is_sart)
 	{
-		if(crn_room->is_in_val_pth == 1)
-			return(0);
-		crn_room = crn_room->from->room;
+        if(crn_room->is_in_val_pth == 1)
+            return(0);
+        crnt_frome = crn_room->from;
+		while (crnt_frome)
+        {
+            if (crnt_frome->room->is_in_val_pth == 1)
+		        crnt_frome = crnt_frome->next;
+            else
+                break ;
+        }
+		if (crnt_frome == NULL)
+            return (0);
+        crn_room = crnt_frome->room;
 	}
 	return (1);
 }
