@@ -28,8 +28,6 @@ typedef struct				s_list_rooms
 	int						y;
 	int						is_sart;
 	int						is_end;
-	int						was_in_room;
-	int						is_in_queue;
 	int						is_in_val_pth;
 	struct s_links			*link;
 	struct s_ls_come_from	*from;
@@ -80,9 +78,15 @@ typedef struct				s_lst_vld_path
 	struct s_lst_vld_path	*next;
 }							t_lst_vld_path;
 
+typedef struct s_path
+{
+	t_list_rooms *vertex;
+	struct s_path *prev;
+}t_path;
+
 typedef struct				s_list_queue
 {
-	t_list_rooms			*crn_room;
+	t_path *path;
 	struct s_list_queue		*next;
 }							t_list_queue;
 
@@ -111,6 +115,7 @@ typedef struct				s_output_data
 	int						nmb_paths;
 	t_out_path				*arr_paths;
 }							t_output_data;
+
 
 t_list_rooms				*find_start_room(t_input_data *data);
 void						add_queue_el(t_queue_data *que,
@@ -172,7 +177,7 @@ int							print_ants(t_output_data *out);
 void						output_ants(t_input_data *data, t_output_data *out);
 void						del_arr_path(t_output_data *out);
 void						inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
-		t_output_data *out, t_lst_vld_path *crnt, int *j);
+		t_output_data *out, int *j);
 void						run_ants(t_input_data *data,
 		t_lst_vld_path *lst_vld_path);
 #endif

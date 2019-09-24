@@ -33,7 +33,7 @@ void			add_queue_el(t_queue_data *que, t_list_rooms *el_que)
 
 	crn_qel = que->last_q_el;
 	que->last_q_el = (t_list_queue*)malloc(sizeof(t_list_queue));
-	que->last_q_el->crn_room = el_que;
+	que->last_q_el->path = el_que;
 	que->last_q_el->next = NULL;
 	if (que->frst_queue_el != NULL)
 		crn_qel->next = que->last_q_el;
