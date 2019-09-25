@@ -21,6 +21,12 @@
 struct s_links;
 struct s_ls_come_from;
 
+typedef struct s_str_list
+{
+	char *line;
+	struct s_str_list *next;
+}t_str_list;
+
 typedef struct				s_list_rooms
 {
 	char					*name;

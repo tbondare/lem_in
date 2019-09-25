@@ -92,6 +92,8 @@ void			save_val_path(t_lst_vld_path **frst_vl_pth, t_path *crn,
 
     mem_vld_path = add_val_path(frst_vl_pth);
     data->flg_ants++;
+    data->end_room_name = crn->vertex->name;
+	crn = crn->prev;
     while (!crn->vertex->is_sart)
     {
         mem_path_el = mem_vld_path->frst_path_el;
@@ -103,6 +105,20 @@ void			save_val_path(t_lst_vld_path **frst_vl_pth, t_path *crn,
         mem_vld_path->leng++;
         crn = crn->prev;
     }
+}
+
+int check_room_is_val_path(t_queue_data *queue)
+{
+	t_path *path;
+
+	path = queue->frst_queue_el->path;
+	while(!path->vertex->is_sart)
+	{
+		if(path->vertex->is_in_val_pth == 1)
+			return (1);
+		path = path->prev;
+	}
+	return(0);
 }
 
 t_lst_vld_path	*find_valid_path(t_input_data *data)
@@ -122,7 +138,7 @@ t_lst_vld_path	*find_valid_path(t_input_data *data)
             del_queue(&queue);
             return (frst_vl_pth);
         }
-		if (queue.frst_queue_el->path->vertex->is_in_val_pth == 1)
+		if (check_room_is_val_path(&queue) == 1)
         {
             del_first_queue_el(&queue);
             continue ;
