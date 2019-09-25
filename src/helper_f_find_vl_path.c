@@ -27,7 +27,7 @@ t_list_rooms	*find_start_room(t_input_data *data)
 	return (crn_room);
 }
 
-void			add_queue_el(t_queue_data *que, t_list_rooms *el_que)
+void			add_queue_el(t_queue_data *que, t_path *el_que)
 {
 	t_list_queue *crn_qel;
 
@@ -46,24 +46,6 @@ void			del_first_queue_el(t_queue_data *queue)
 	queue->mem_queue = queue->frst_queue_el;
 	queue->frst_queue_el = queue->frst_queue_el->next;
 	free(queue->mem_queue);
-}
-
-void			add_come_from_room(t_list_rooms *come_from_rm,
-		t_list_rooms *crnt_rm)
-{
-	t_ls_come_from *cm_fr_el;
-	t_ls_come_from *list_iter;
-
-	list_iter = crnt_rm->from;
-	while (list_iter != NULL && list_iter->next)
-		list_iter = list_iter->next;
-	cm_fr_el = (t_ls_come_from*)malloc(sizeof(t_ls_come_from));
-	cm_fr_el->room = come_from_rm;
-	if (list_iter != NULL)
-		list_iter->next = cm_fr_el;
-	else
-		crnt_rm->from = cm_fr_el;
-	cm_fr_el->next = NULL;
 }
 
 void			del_queue(t_queue_data *queue)

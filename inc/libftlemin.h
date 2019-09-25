@@ -118,8 +118,7 @@ typedef struct				s_output_data
 
 
 t_list_rooms				*find_start_room(t_input_data *data);
-void						add_queue_el(t_queue_data *que,
-		t_list_rooms *el_que);
+void						add_queue_el(t_queue_data *que, t_path *el_que);
 void						del_first_queue_el(t_queue_data *queue);
 void						add_come_from_room(t_list_rooms *come_from_rm,
 		t_list_rooms *crnt_rm);
@@ -127,7 +126,7 @@ void						del_queue(t_queue_data *queue);
 
 void						whl_f_save_vl_path(t_list_rooms *crn_room);
 void						save_val_path(t_lst_vld_path **frst_vl_pth,
-		t_list_rooms *crn_room, t_input_data *data);
+        t_path *crn, t_input_data *data);
 void						els_f_whl_fnd_vl_path(t_links *crn_rm_ln,
 		t_queue_data **queue);
 void						whl_f_find_val_path(t_input_data *data,
