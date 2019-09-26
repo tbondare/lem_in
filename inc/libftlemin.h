@@ -35,6 +35,7 @@ typedef struct				s_list_rooms
 	int						is_sart;
 	int						is_end;
 	int						is_in_val_pth;
+	int cnt_was_in_room;
 	struct s_links			*link;
 	struct s_ls_come_from	*from;
 	struct s_list_rooms		*next_rm;
@@ -59,6 +60,19 @@ typedef struct				s_list_tubes
 	struct s_list_tubes		*next_tb;
 }							t_list_tubes;
 
+typedef struct s_path
+{
+	t_list_rooms *vertex;
+	int depth;
+	struct s_path *prev;
+}t_path;
+
+typedef struct s_for_del
+{
+	t_path *path;
+	struct s_for_del *next;
+}t_for_del;
+
 typedef struct				s_input_data
 {
 	int						flg_ants;
@@ -66,6 +80,7 @@ typedef struct				s_input_data
 	char					*end_room_name;
 	t_list_rooms			*frst_rm;
 	t_list_tubes			*frst_tb;
+	t_for_del *del_path;
 }							t_input_data;
 
 typedef struct				s_vld_path_elem
@@ -83,12 +98,6 @@ typedef struct				s_lst_vld_path
 	t_vld_path_elem			*frst_path_el;
 	struct s_lst_vld_path	*next;
 }							t_lst_vld_path;
-
-typedef struct s_path
-{
-	t_list_rooms *vertex;
-	struct s_path *prev;
-}t_path;
 
 typedef struct				s_list_queue
 {
@@ -121,7 +130,6 @@ typedef struct				s_output_data
 	int						nmb_paths;
 	t_out_path				*arr_paths;
 }							t_output_data;
-
 
 t_list_rooms				*find_start_room(t_input_data *data);
 void						add_queue_el(t_queue_data *que, t_path *el_que);
@@ -164,9 +172,10 @@ int							try_read_cnt_ants(char *line, t_input_data *data);
 int							try_read_room(char *line, t_input_data *data);
 int							try_read_tubes (char *line, t_input_data *data);
 int							try_read_comment(char *line, t_input_data *data,
-		int fd);
+		int fd, t_str_list **input);
 
 void						free_frst_tb(t_input_data *data);
+void add_line_to_input(t_str_list **input, char *line);
 int							ft_read_data(t_input_data *data);
 
 int							ft_round(float x);

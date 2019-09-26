@@ -48,6 +48,20 @@ void	del_rm_from(t_ls_come_from *from)
 	}
 }
 
+void free_path(t_input_data *data)
+{
+	t_for_del *del;
+
+	del = data->del_path;
+	while (del)
+	{
+		data->del_path = data->del_path->next;
+		free(del->path);
+		free(del);
+		del = data->del_path;
+	}
+}
+
 void	free_mem(t_input_data *data)
 {
 	t_list_rooms *crn_rm;
@@ -70,6 +84,7 @@ void	free_mem(t_input_data *data)
 		free(data->frst_tb);
 		data->frst_tb = crn_tbs;
 	}
+	free_path(data);
 }
 
 void	free_mem_val_path(t_lst_vld_path *lst_vld_path)

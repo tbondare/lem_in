@@ -26,7 +26,7 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 		{
 			free(line);
 			ft_printf("ants quantity = 0\n");
-			exit(0);
+			exit(1);
 		}
 		return (1);
 	}
@@ -34,7 +34,7 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 	{
 		free(line);
 		ft_printf("failed to read ants quantity\n");
-		exit(0);
+		exit(1);
 	}
 	return (0);
 }
@@ -96,7 +96,22 @@ int	try_read_tubes(char *line, t_input_data *data)
 	return (1);
 }
 
-int	try_read_comment(char *line, t_input_data *data, int fd)
+char* loop_comments(int fd, t_str_list **input)
+{
+	char	*line;
+
+	while(get_next_line(fd, &line) > 0)
+	{
+		add_line_to_input(input, line);
+		if (line[0] != '#')
+			return (line);
+	}
+	free(line);
+	ft_printf("Failed to read string after ##start or ##end\n");
+	exit(1);
+}
+
+int	try_read_comment(char *line, t_input_data *data, int fd, t_str_list **input)
 {
 	char fl;
 
@@ -105,12 +120,7 @@ int	try_read_comment(char *line, t_input_data *data, int fd)
 	if (ft_strcmp(line, "##start") != 0 && ft_strcmp(line, "##end") != 0)
 		return (1);
 	fl = line[2];
-	if (get_next_line(fd, &line) <= 0)
-	{
-		free(line);
-		ft_printf("Failed to read string after ##start or ##end\n");
-		exit(1);
-	}
+	line = loop_comments(fd, input);
 	if (try_read_room(line, data) != 1)
 	{
 		free(line);
@@ -121,6 +131,5 @@ int	try_read_comment(char *line, t_input_data *data, int fd)
 		data->frst_rm->is_sart = 1;
 	else
 		data->frst_rm->is_end = 1;
-	free(line);
 	return (1);
 }

@@ -73,13 +73,13 @@ int		ft_read_data(t_input_data *data)
 //	fd = 0;
 	line = NULL;
 	input = NULL;
-	fd = open("../t.txt", O_RDONLY);
+	fd = open("../input_data2.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		add_line_to_input(&input, line);
 		if(try_read_cnt_ants(line, data) == 1 ||
 				try_read_room(line, data) == 1 ||
-				try_read_comment(line, data, fd) == 1 ||
+				try_read_comment(line, data, fd, &input) == 1 ||
 				try_read_tubes(line, data) == 1)
 			continue ;
 		else
@@ -89,6 +89,7 @@ int		ft_read_data(t_input_data *data)
 			exit(1);
 		}
 	}
+	free(line);
 	ft_print_input_str(input);
 	ft_printf("\n");
 	return (0);

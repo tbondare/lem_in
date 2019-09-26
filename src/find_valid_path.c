@@ -42,25 +42,38 @@ t_lst_vld_path *add_val_path(t_lst_vld_path	**frst_vl_pth)
 t_path *create_path_for_queue(t_input_data *data)
 {
 	t_path *path;
+	t_for_del *del;
 
 	path = (t_path*)malloc(sizeof(t_path));
 	path->vertex = find_start_room(data);
+	path->depth = 1;
 	path->prev = NULL;
+	del = data->del_path;
+	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
+	data->del_path->next = del;
+	data->del_path->path = path;
 	return(path);
 }
 
-t_path *add_room_to_path(t_path *path, t_list_rooms *room)
+t_path *add_room_to_path(t_input_data *data, t_path *path, t_list_rooms *room)
 {
     t_path *mem_path;
+    t_for_del *del;
 
     mem_path = path;
+    room->cnt_was_in_room++;
     path = (t_path*)malloc(sizeof(t_path));
     path->prev = mem_path;
+    path->depth = path->prev->depth + 1;
     path->vertex = room;
+    del = data->del_path;
+	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
+	data->del_path->next = del;
+	data->del_path->path = path;
     return(path);
 }
 
-void loop_for_links_crn_room(t_queue_data *queue)
+void loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
 {
 	t_links			*crn_rm_ln;
 	t_path *crn_q_el;
@@ -69,16 +82,22 @@ void loop_for_links_crn_room(t_queue_data *queue)
 	crn_rm_ln = queue->frst_queue_el->path->vertex->link;
 	while(crn_rm_ln)
 	{
+		if (crn_rm_ln->linked_room->is_in_val_pth != 0
+			|| crn_rm_ln->linked_room->cnt_was_in_room > 30)
+		{
+			crn_rm_ln = crn_rm_ln->next;
+			continue ;
+		}
 		a = 0;
 		crn_q_el = queue->frst_queue_el->path;
 		while(crn_q_el)
 		{
-			if(ft_strequ(crn_rm_ln->linked_room->name, crn_q_el->vertex->name) == 1)
+			if(crn_rm_ln->linked_room == crn_q_el->vertex)
 				a++;
             crn_q_el = crn_q_el->prev;
 		}
-        if(a == 0 && crn_rm_ln->linked_room->is_in_val_pth == 0)
-			add_queue_el(queue, add_room_to_path(queue->frst_queue_el->path,
+        if(a == 0)
+			add_queue_el(queue, add_room_to_path(data, queue->frst_queue_el->path,
 			        crn_rm_ln->linked_room));
 		crn_rm_ln = crn_rm_ln->next;
 	}
@@ -127,6 +146,7 @@ t_lst_vld_path	*find_valid_path(t_input_data *data)
 	t_lst_vld_path	*frst_vl_pth;
 
 	data->flg_ants = 0;
+	data->del_path = NULL;
 	queue.last_q_el = NULL;
 	queue.frst_queue_el = NULL;
 	frst_vl_pth = NULL;
@@ -146,7 +166,7 @@ t_lst_vld_path	*find_valid_path(t_input_data *data)
 		if (queue.frst_queue_el->path->vertex->is_end == 1)
 			save_val_path(&frst_vl_pth, queue.frst_queue_el->path, data);
 		else
-			loop_for_links_crn_room(&queue);
+			loop_for_links_crn_room(data, &queue);
 		del_first_queue_el(&queue);
 	}
 	return (frst_vl_pth);

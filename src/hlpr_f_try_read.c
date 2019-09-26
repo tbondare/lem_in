@@ -34,6 +34,7 @@ void	add_new_rm(t_input_data *data, t_list_rooms **new)
 	(*new)->is_sart = 0;
 	(*new)->is_end = 0;
 	(*new)->is_in_val_pth = 0;
+	(*new)->cnt_was_in_room = 0;
 	(*new)->link = NULL;
 	(*new)->from = NULL;
 	(*new)->next_rm = data->frst_rm;
@@ -53,6 +54,7 @@ void	add_rm_to_list(t_input_data *data)
 		data->frst_rm->is_sart = 0;
 		data->frst_rm->is_end = 0;
 		data->frst_rm->is_in_val_pth = 0;
+		data->frst_rm->cnt_was_in_room = 0;
 		data->frst_rm->link = NULL;
 		data->frst_rm->from = NULL;
 		data->frst_rm->next_rm = NULL;
