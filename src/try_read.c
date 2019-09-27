@@ -6,13 +6,13 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 16:56:24 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/31 17:55:42 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:33:52 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/libftlemin.h"
 
-int	try_read_cnt_ants(char *line, t_input_data *data)
+int		try_read_cnt_ants(char *line, t_input_data *data)
 {
 	int i;
 
@@ -21,7 +21,14 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 		i++;
 	if (line[i] == '\0' && i > 0)
 	{
+		if (data->ants_is != 0)
+		{
+			free(line);
+			ft_printf("failed to read ants quantity\n");
+			exit(1);
+		}
 		data->cnt_ants = ft_atoi(line);
+		data->ants_is = 1;
 		if (data->cnt_ants == 0)
 		{
 			free(line);
@@ -39,7 +46,7 @@ int	try_read_cnt_ants(char *line, t_input_data *data)
 	return (0);
 }
 
-int	try_read_room(char *line, t_input_data *data)
+int		try_read_room(char *line, t_input_data *data)
 {
 	int i;
 
@@ -67,7 +74,7 @@ int	try_read_room(char *line, t_input_data *data)
 	return (0);
 }
 
-int	try_read_tubes(char *line, t_input_data *data)
+int		try_read_tubes(char *line, t_input_data *data)
 {
 	int		i;
 	char	*name_rm;
@@ -96,11 +103,11 @@ int	try_read_tubes(char *line, t_input_data *data)
 	return (1);
 }
 
-char* loop_comments(int fd, t_str_list **input)
+char	*loop_comments(int fd, t_str_list **input)
 {
 	char	*line;
 
-	while(get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		add_line_to_input(input, line);
 		if (line[0] != '#')
@@ -111,7 +118,8 @@ char* loop_comments(int fd, t_str_list **input)
 	exit(1);
 }
 
-int	try_read_comment(char *line, t_input_data *data, int fd, t_str_list **input)
+int		try_read_comment(char *line, t_input_data *data, int fd,
+		t_str_list **input)
 {
 	char fl;
 

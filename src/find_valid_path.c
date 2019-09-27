@@ -6,13 +6,13 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 15:46:09 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/28 19:40:27 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:15:05 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./inc/libftlemin.h"
 
-t_lst_vld_path *add_val_path(t_lst_vld_path	**frst_vl_pth)
+t_lst_vld_path	*add_val_path(t_lst_vld_path **frst_vl_pth)
 {
 	t_lst_vld_path *mem_vld_path;
 	t_lst_vld_path *new_vld_path;
@@ -25,12 +25,11 @@ t_lst_vld_path *add_val_path(t_lst_vld_path	**frst_vl_pth)
 	else
 	{
 		mem_vld_path = *frst_vl_pth;
-		while(mem_vld_path->next)
+		while (mem_vld_path->next)
 			mem_vld_path = mem_vld_path->next;
 		mem_vld_path->next = (t_lst_vld_path*)malloc(sizeof(t_lst_vld_path));
 		new_vld_path = mem_vld_path->next;
 	}
-
 	new_vld_path->y = 0;
 	new_vld_path->x = 0;
 	new_vld_path->next = NULL;
@@ -39,10 +38,10 @@ t_lst_vld_path *add_val_path(t_lst_vld_path	**frst_vl_pth)
 	return (new_vld_path);
 }
 
-t_path *create_path_for_queue(t_input_data *data)
+t_path			*create_path_for_queue(t_input_data *data)
 {
-	t_path *path;
-	t_for_del *del;
+	t_path		*path;
+	t_for_del	*del;
 
 	path = (t_path*)malloc(sizeof(t_path));
 	path->vertex = find_start_room(data);
@@ -52,35 +51,36 @@ t_path *create_path_for_queue(t_input_data *data)
 	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
 	data->del_path->next = del;
 	data->del_path->path = path;
-	return(path);
+	return (path);
 }
 
-t_path *add_room_to_path(t_input_data *data, t_path *path, t_list_rooms *room)
+t_path			*add_room_to_path(t_input_data *data, t_path *path,
+		t_list_rooms *room)
 {
-    t_path *mem_path;
-    t_for_del *del;
+	t_path		*mem_path;
+	t_for_del	*del;
 
-    mem_path = path;
-    room->cnt_was_in_room++;
-    path = (t_path*)malloc(sizeof(t_path));
-    path->prev = mem_path;
-    path->depth = path->prev->depth + 1;
-    path->vertex = room;
-    del = data->del_path;
+	mem_path = path;
+	room->cnt_was_in_room++;
+	path = (t_path*)malloc(sizeof(t_path));
+	path->prev = mem_path;
+	path->depth = path->prev->depth + 1;
+	path->vertex = room;
+	del = data->del_path;
 	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
 	data->del_path->next = del;
 	data->del_path->path = path;
-    return(path);
+	return (path);
 }
 
-void loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
+void			loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
 {
 	t_links			*crn_rm_ln;
-	t_path *crn_q_el;
-	int a;
+	t_path			*crn_q_el;
+	int				a;
 
 	crn_rm_ln = queue->frst_queue_el->path->vertex->link;
-	while(crn_rm_ln)
+	while (crn_rm_ln)
 	{
 		if (crn_rm_ln->linked_room->is_in_val_pth != 0
 			|| crn_rm_ln->linked_room->cnt_was_in_room > 30)
@@ -90,54 +90,62 @@ void loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
 		}
 		a = 0;
 		crn_q_el = queue->frst_queue_el->path;
-		while(crn_q_el)
+		while (crn_q_el)
 		{
-			if(crn_rm_ln->linked_room == crn_q_el->vertex)
+			if (crn_rm_ln->linked_room == crn_q_el->vertex)
 				a++;
-            crn_q_el = crn_q_el->prev;
+			crn_q_el = crn_q_el->prev;
 		}
-        if(a == 0)
-			add_queue_el(queue, add_room_to_path(data, queue->frst_queue_el->path,
-			        crn_rm_ln->linked_room));
+		if (a == 0)
+			add_queue_el(queue, add_room_to_path(data,
+						queue->frst_queue_el->path, crn_rm_ln->linked_room));
 		crn_rm_ln = crn_rm_ln->next;
 	}
 }
 
 void			save_val_path(t_lst_vld_path **frst_vl_pth, t_path *crn,
-        t_input_data *data)
+		t_input_data *data)
 {
-    t_lst_vld_path	*mem_vld_path;
-    t_vld_path_elem	*mem_path_el;
+	t_lst_vld_path	*mem_vld_path;
+	t_vld_path_elem	*mem_path_el;
 
-    mem_vld_path = add_val_path(frst_vl_pth);
-    data->flg_ants++;
-    data->end_room_name = crn->vertex->name;
+	mem_vld_path = add_val_path(frst_vl_pth);
+	data->flg_ants++;
+	data->end_room_name = crn->vertex->name;
 	crn = crn->prev;
-    while (!crn->vertex->is_sart)
-    {
-        mem_path_el = mem_vld_path->frst_path_el;
-        mem_vld_path->frst_path_el =
-                (t_vld_path_elem*)malloc(sizeof(t_vld_path_elem));
-        mem_vld_path->frst_path_el->next = mem_path_el;
-        mem_vld_path->frst_path_el->room = crn->vertex;
-        crn->vertex->is_in_val_pth = 1;
-        mem_vld_path->leng++;
-        crn = crn->prev;
-    }
+	while (!crn->vertex->is_sart)
+	{
+		mem_path_el = mem_vld_path->frst_path_el;
+		mem_vld_path->frst_path_el =
+			(t_vld_path_elem*)malloc(sizeof(t_vld_path_elem));
+		mem_vld_path->frst_path_el->next = mem_path_el;
+		mem_vld_path->frst_path_el->room = crn->vertex;
+		crn->vertex->is_in_val_pth = 1;
+		mem_vld_path->leng++;
+		crn = crn->prev;
+	}
 }
 
-int check_room_is_val_path(t_queue_data *queue)
+int				check_room_is_val_path(t_queue_data *queue)
 {
 	t_path *path;
 
 	path = queue->frst_queue_el->path;
-	while(!path->vertex->is_sart)
+	while (!path->vertex->is_sart)
 	{
-		if(path->vertex->is_in_val_pth == 1)
+		if (path->vertex->is_in_val_pth == 1)
 			return (1);
 		path = path->prev;
 	}
-	return(0);
+	return (0);
+}
+
+void init_data_and_queue(t_input_data *data, t_queue_data *queue)
+{
+	data->flg_ants = 0;
+	data->del_path = NULL;
+	queue.last_q_el = NULL;
+	queue.frst_queue_el = NULL;
 }
 
 t_lst_vld_path	*find_valid_path(t_input_data *data)
@@ -145,24 +153,25 @@ t_lst_vld_path	*find_valid_path(t_input_data *data)
 	t_queue_data	queue;
 	t_lst_vld_path	*frst_vl_pth;
 
-	data->flg_ants = 0;
-	data->del_path = NULL;
-	queue.last_q_el = NULL;
-	queue.frst_queue_el = NULL;
+	init_data_and_queue(data, &queue);
+//	data->flg_ants = 0;
+//	data->del_path = NULL;
+//	queue.last_q_el = NULL;
+//	queue.frst_queue_el = NULL;
 	frst_vl_pth = NULL;
 	add_queue_el(&queue, create_path_for_queue(data));
 	while (queue.frst_queue_el)
 	{
 		if (data->flg_ants == data->cnt_ants)
 		{
-            del_queue(&queue);
-            return (frst_vl_pth);
-        }
+			del_queue(&queue);
+			return (frst_vl_pth);
+		}
 		if (check_room_is_val_path(&queue) == 1)
-        {
-            del_first_queue_el(&queue);
-            continue ;
-        }
+		{
+			del_first_queue_el(&queue);
+			continue ;
+		}
 		if (queue.frst_queue_el->path->vertex->is_end == 1)
 			save_val_path(&frst_vl_pth, queue.frst_queue_el->path, data);
 		else

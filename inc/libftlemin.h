@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 16:04:18 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/17 14:06:38 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 17:50:25 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 struct s_links;
 struct s_ls_come_from;
 
-typedef struct s_str_list
+typedef struct				s_str_list
 {
-	char *line;
-	struct s_str_list *next;
-}t_str_list;
+	char					*line;
+	struct s_str_list		*next;
+}							t_str_list;
 
 typedef struct				s_list_rooms
 {
@@ -35,7 +35,7 @@ typedef struct				s_list_rooms
 	int						is_sart;
 	int						is_end;
 	int						is_in_val_pth;
-	int cnt_was_in_room;
+	int						cnt_was_in_room;
 	struct s_links			*link;
 	struct s_ls_come_from	*from;
 	struct s_list_rooms		*next_rm;
@@ -60,27 +60,27 @@ typedef struct				s_list_tubes
 	struct s_list_tubes		*next_tb;
 }							t_list_tubes;
 
-typedef struct s_path
+typedef struct				s_path
 {
-	t_list_rooms *vertex;
-	int depth;
-	struct s_path *prev;
-}t_path;
+	t_list_rooms			*vertex;
+	struct s_path			*prev;
+}							t_path;
 
-typedef struct s_for_del
+typedef struct				s_for_del
 {
-	t_path *path;
-	struct s_for_del *next;
-}t_for_del;
+	t_path					*path;
+	struct s_for_del		*next;
+}							t_for_del;
 
 typedef struct				s_input_data
 {
 	int						flg_ants;
 	int						cnt_ants;
+	int						ants_is;
 	char					*end_room_name;
 	t_list_rooms			*frst_rm;
 	t_list_tubes			*frst_tb;
-	t_for_del *del_path;
+	t_for_del				*del_path;
 }							t_input_data;
 
 typedef struct				s_vld_path_elem
@@ -101,7 +101,7 @@ typedef struct				s_lst_vld_path
 
 typedef struct				s_list_queue
 {
-	t_path *path;
+	t_path					*path;
 	struct s_list_queue		*next;
 }							t_list_queue;
 
@@ -140,7 +140,7 @@ void						del_queue(t_queue_data *queue);
 
 void						whl_f_save_vl_path(t_list_rooms *crn_room);
 void						save_val_path(t_lst_vld_path **frst_vl_pth,
-        t_path *crn, t_input_data *data);
+		t_path *crn, t_input_data *data);
 void						els_f_whl_fnd_vl_path(t_links *crn_rm_ln,
 		t_queue_data **queue);
 void						whl_f_find_val_path(t_input_data *data,
@@ -175,7 +175,7 @@ int							try_read_comment(char *line, t_input_data *data,
 		int fd, t_str_list **input);
 
 void						free_frst_tb(t_input_data *data);
-void add_line_to_input(t_str_list **input, char *line);
+void						add_line_to_input(t_str_list **input, char *line);
 int							ft_read_data(t_input_data *data);
 
 int							ft_round(float x);

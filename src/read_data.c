@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 16:48:56 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/20 15:30:26 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:24:01 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	free_frst_tb(t_input_data *data)
 	data->frst_tb = next;
 }
 
-void add_line_to_input(t_str_list **input, char *line)
+void	add_line_to_input(t_str_list **input, char *line)
 {
 	t_str_list *mem_input;
 
-	if(*input == NULL)
+	if (*input == NULL)
 	{
 		*input = (t_str_list*)malloc(sizeof(t_str_list));
 		(*input)->line = line;
@@ -45,17 +45,17 @@ void add_line_to_input(t_str_list **input, char *line)
 	}
 }
 
-void ft_print_input_str(t_str_list *input)
+void	ft_print_input_str(t_str_list *input)
 {
 	t_str_list *mem_input;
 
 	mem_input = input;
-	while(mem_input)
+	while (mem_input)
 	{
 		ft_printf("%s\n", mem_input->line);
 		mem_input = mem_input->next;
 	}
-	while(input)
+	while (input)
 	{
 		free(input->line);
 		mem_input = input;
@@ -66,21 +66,20 @@ void ft_print_input_str(t_str_list *input)
 
 int		ft_read_data(t_input_data *data)
 {
-	char	*line;
-	int		fd;
-	t_str_list *input;
+	char		*line;
+	int			fd;
+	t_str_list	*input;
 
-//	fd = 0;
+	fd = 0;
 	line = NULL;
 	input = NULL;
-	fd = open("../input_data2.txt", O_RDONLY);
+//	fd = open("../input_data2.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		add_line_to_input(&input, line);
-		if(try_read_cnt_ants(line, data) == 1 ||
-				try_read_room(line, data) == 1 ||
-				try_read_comment(line, data, fd, &input) == 1 ||
-				try_read_tubes(line, data) == 1)
+		if (try_read_cnt_ants(line, data) == 1 || try_read_room(line, data) == 1
+				|| try_read_comment(line, data, fd, &input) == 1
+				|| try_read_tubes(line, data) == 1)
 			continue ;
 		else
 		{

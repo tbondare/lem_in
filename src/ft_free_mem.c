@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 19:47:57 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/28 20:06:11 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:16:50 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	del_rm_from(t_ls_come_from *from)
 	}
 }
 
-void free_path(t_input_data *data)
+void	free_path(t_input_data *data)
 {
 	t_for_del *del;
 

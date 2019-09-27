@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:56:51 by tbondare          #+#    #+#             */
-/*   Updated: 2019/09/20 15:47:59 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:31:20 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,18 @@ void	inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
 		(*j)++;
 	}
 }
-void cnt_ants_for_each_path(t_lst_vld_path *lst_vld_path, int data_ants, int x, int cnt_paths)
+
+void	cnt_ants_for_each_path(t_lst_vld_path *lst_vld_path,
+		int data_ants, int x, int cnt_paths)
 {
-	int cnt;
-	int sum_ants;
-	t_lst_vld_path *crnt_path;
+	int				cnt;
+	int				sum_ants;
+	t_lst_vld_path	*crnt_path;
 
 	cnt = 0;
 	sum_ants = 0;
 	crnt_path = lst_vld_path;
-	while(cnt < cnt_paths)
+	while (cnt < cnt_paths)
 	{
 		crnt_path->x = x - crnt_path->leng;
 		sum_ants = sum_ants + crnt_path->x;
@@ -112,12 +114,13 @@ void cnt_ants_for_each_path(t_lst_vld_path *lst_vld_path, int data_ants, int x, 
 	}
 }
 
-int distribute_ants_to_paths(t_input_data *data, t_lst_vld_path *lst_vld_path)
+int		distribute_ants_to_paths(t_input_data *data,
+		t_lst_vld_path *lst_vld_path)
 {
-	int x;
-	int sum_d;
-	int cnt_paths;
-	t_lst_vld_path *crnt_val_path;
+	int				x;
+	int				sum_d;
+	int				cnt_paths;
+	t_lst_vld_path	*crnt_val_path;
 
 	x = 0;
 	cnt_paths = 1;
@@ -127,7 +130,7 @@ int distribute_ants_to_paths(t_input_data *data, t_lst_vld_path *lst_vld_path)
 	{
 		x = (sum_d + data->cnt_ants) / cnt_paths;
 		if (crnt_val_path->next == NULL || crnt_val_path->next->leng > x)
-			break;
+			break ;
 		cnt_paths++;
 		crnt_val_path = crnt_val_path->next;
 		sum_d = sum_d + crnt_val_path->leng;
@@ -136,12 +139,12 @@ int distribute_ants_to_paths(t_input_data *data, t_lst_vld_path *lst_vld_path)
 	return (cnt_paths);
 }
 
-void print_ants_in_one_line(int cnt_ants, char *end_room_name)
+void	print_ants_in_one_line(int cnt_ants, char *end_room_name)
 {
 	int i;
 
 	i = 1;
-	while(cnt_ants >= i)
+	while (cnt_ants >= i)
 	{
 		ft_printf("L%d-%s ", i, end_room_name);
 		i++;
@@ -184,5 +187,3 @@ void	run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
 	output_ants(data, &out);
 	del_arr_path(&out);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: tbondare <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 16:29:54 by tbondare          #+#    #+#             */
-/*   Updated: 2019/08/31 16:43:03 by tbondare         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:18:35 by tbondare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int				main(void)
 	data.frst_rm = NULL;
 	data.frst_tb = NULL;
 	data.cnt_ants = -1;
+	data.ants_is = 0;
 	if (ft_read_data(&data) == -1 || data.cnt_ants == -1)
 	{
 		free_mem(&data);
