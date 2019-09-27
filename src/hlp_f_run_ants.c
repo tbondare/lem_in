@@ -12,62 +12,64 @@
 
 #include "./inc/libftlemin.h"
 
-int		ft_round(float x)
+void	print_ants_in_one_line(int cnt_ants, char *end_room_name)
 {
-	int x_int;
-	int c;
+	int i;
 
-	x_int = x;
-	x = x - x_int;
-	while (x)
+	i = 1;
+	while (cnt_ants >= i)
 	{
-		c = x * 10;
-		if (c >= 5)
-			return (++x_int);
-		if (c < 4)
-			return (x_int);
-		x = x - c;
+		ft_printf("L%d-%s ", i, end_room_name);
+		i++;
 	}
-	return (x_int);
+	exit(0);
 }
 
-void	round_ants(t_input_data *data, t_lst_vld_path **crnt, int sum_y)
+int		print_ants(t_output_data *out)
 {
-	while (*crnt)
+	int i;
+	int j;
+	int flg;
+
+	i = out->nmb_paths - 1;
+	flg = 0;
+	while (i >= 0)
 	{
-		(*crnt)->x = ft_round((float)data->cnt_ants * (*crnt)->y / sum_y);
-		*crnt = (*crnt)->next;
+		j = out->arr_paths[i].path_leng - 1;
+		while (j >= 0)
+		{
+			if (out->arr_paths[i].path[j].ant_index != 0)
+			{
+				ft_printf("L%d-%s ", out->arr_paths[i].path[j].ant_index,
+						  out->arr_paths[i].path[j].name);
+				flg = 1;
+			}
+			j--;
+		}
+		i--;
 	}
+	if (flg == 1)
+		ft_printf("\n");
+	return (flg);
 }
 
-int		cnt_x_for_every_valpath(t_input_data *data,
-		t_lst_vld_path *lst_vld_path)
+void	output_ants(t_input_data *data, t_output_data *out)
 {
-	int				prdct_b;
-	int				sum_y;
-	int				nmbr_path;
-	t_lst_vld_path	*crnt;
+	int flg;
+	int ant_ind;
+	int cnt;
 
-	sum_y = 0;
-	prdct_b = 1;
-	crnt = lst_vld_path;
-	nmbr_path = 0;
-	while (crnt)
+	flg = 1;
+	ant_ind = 1;
+	cnt = 0;
+	while (flg == 1)
 	{
-		nmbr_path++;
-		prdct_b = prdct_b * crnt->leng;
-		crnt = crnt->next;
+		cnt++;
+		move_ants(out);
+		push_ants(data, out, &ant_ind);
+		flg = print_ants(out);
+		ft_printf("%d\n", cnt);
 	}
-	crnt = lst_vld_path;
-	while (crnt)
-	{
-		crnt->y = prdct_b / crnt->leng;
-		sum_y = sum_y + crnt->y;
-		crnt = crnt->next;
-	}
-	crnt = lst_vld_path;
-	round_ants(data, &crnt, sum_y);
-	return (nmbr_path);
 }
 
 void	move_ants(t_output_data *out)

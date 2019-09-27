@@ -59,3 +59,4 @@ void			del_queue(t_queue_data *queue)
 		queue->frst_queue_el = mem_q;
 	}
 }
+

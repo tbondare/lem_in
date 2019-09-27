@@ -12,6 +12,19 @@
 
 #include "./inc/libftlemin.h"
 
+void	del_arr_path(t_output_data *out)
+{
+	int i;
+
+	i = 0;
+	while (i < out->nmb_paths)
+	{
+		free(out->arr_paths[i].path);
+		i++;
+	}
+	free(out->arr_paths);
+}
+
 t_list_rooms	*found_ptr_room_by_name(t_input_data *data, char *name)
 {
 	t_list_rooms *crnt_rm;
@@ -22,20 +35,6 @@ t_list_rooms	*found_ptr_room_by_name(t_input_data *data, char *name)
 		if (ft_strequ(crnt_rm->name, name) == 1)
 			return (crnt_rm);
 		crnt_rm = crnt_rm->next_rm;
-	}
-	return (0);
-}
-
-int				is_same_link(t_links *lnk, char *name)
-{
-	t_links *crn_lnk;
-
-	crn_lnk = lnk;
-	while (crn_lnk)
-	{
-		if (ft_strequ(crn_lnk->linked_room->name, name) == 1)
-			return (1);
-		crn_lnk = crn_lnk->next;
 	}
 	return (0);
 }

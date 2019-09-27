@@ -11,7 +11,34 @@
 /* ************************************************************************** */
 
 #include "./inc/libftlemin.h"
-#include <fcntl.h>
+
+int		try_read_room(char *line, t_input_data *data)
+{
+	int i;
+
+	i = 0;
+	if (line[0] == '#' || line[0] == 'L')
+		return (0);
+	while (line[i] != '\0' && line[i] != ' ')
+		i++;
+	if (line[i] != ' ' || (ft_isdigit(line[i + 1]) == 0 && line[i] != '-'))
+		return (0);
+	i = i + 2;
+	while (line[i] != '\0' && ft_isdigit(line[i]) == 1)
+		i++;
+	if (line[i] != ' ' || (ft_isdigit(line[i + 1]) == 0 && line[i] != '-'))
+		return (0);
+	i = i + 2;
+	while (line[i] != '\0' && ft_isdigit(line[i]) == 1)
+		i++;
+	if (line[i] == '\0')
+	{
+		add_rm_to_list(data);
+		init_room(line, data);
+		return (1);
+	}
+	return (0);
+}
 
 void	free_frst_tb(t_input_data *data)
 {
@@ -73,7 +100,6 @@ int		ft_read_data(t_input_data *data)
 	fd = 0;
 	line = NULL;
 	input = NULL;
-//	fd = open("../input_data2.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		add_line_to_input(&input, line);

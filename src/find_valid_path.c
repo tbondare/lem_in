@@ -12,72 +12,10 @@
 
 #include "./inc/libftlemin.h"
 
-t_lst_vld_path	*add_val_path(t_lst_vld_path **frst_vl_pth)
-{
-	t_lst_vld_path *mem_vld_path;
-	t_lst_vld_path *new_vld_path;
-
-	if (*frst_vl_pth == NULL)
-	{
-		new_vld_path = (t_lst_vld_path*)malloc(sizeof(t_lst_vld_path));
-		*frst_vl_pth = new_vld_path;
-	}
-	else
-	{
-		mem_vld_path = *frst_vl_pth;
-		while (mem_vld_path->next)
-			mem_vld_path = mem_vld_path->next;
-		mem_vld_path->next = (t_lst_vld_path*)malloc(sizeof(t_lst_vld_path));
-		new_vld_path = mem_vld_path->next;
-	}
-	new_vld_path->y = 0;
-	new_vld_path->x = 0;
-	new_vld_path->next = NULL;
-	new_vld_path->frst_path_el = NULL;
-	new_vld_path->leng = 1;
-	return (new_vld_path);
-}
-
-t_path			*create_path_for_queue(t_input_data *data)
-{
-	t_path		*path;
-	t_for_del	*del;
-
-	path = (t_path*)malloc(sizeof(t_path));
-	path->vertex = find_start_room(data);
-	path->depth = 1;
-	path->prev = NULL;
-	del = data->del_path;
-	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
-	data->del_path->next = del;
-	data->del_path->path = path;
-	return (path);
-}
-
-t_path			*add_room_to_path(t_input_data *data, t_path *path,
-		t_list_rooms *room)
-{
-	t_path		*mem_path;
-	t_for_del	*del;
-
-	mem_path = path;
-	room->cnt_was_in_room++;
-	path = (t_path*)malloc(sizeof(t_path));
-	path->prev = mem_path;
-	path->depth = path->prev->depth + 1;
-	path->vertex = room;
-	del = data->del_path;
-	data->del_path = (t_for_del*)malloc(sizeof(t_for_del));
-	data->del_path->next = del;
-	data->del_path->path = path;
-	return (path);
-}
-
 void			loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
 {
 	t_links			*crn_rm_ln;
 	t_path			*crn_q_el;
-	int				a;
 
 	crn_rm_ln = queue->frst_queue_el->path->vertex->link;
 	while (crn_rm_ln)
@@ -88,15 +26,15 @@ void			loop_for_links_crn_room(t_input_data *data, t_queue_data *queue)
 			crn_rm_ln = crn_rm_ln->next;
 			continue ;
 		}
-		a = 0;
+		data->a = 0;
 		crn_q_el = queue->frst_queue_el->path;
 		while (crn_q_el)
 		{
 			if (crn_rm_ln->linked_room == crn_q_el->vertex)
-				a++;
+				data->a++;
 			crn_q_el = crn_q_el->prev;
 		}
-		if (a == 0)
+		if (data->a == 0)
 			add_queue_el(queue, add_room_to_path(data,
 						queue->frst_queue_el->path, crn_rm_ln->linked_room));
 		crn_rm_ln = crn_rm_ln->next;
@@ -142,10 +80,11 @@ int				check_room_is_val_path(t_queue_data *queue)
 
 void init_data_and_queue(t_input_data *data, t_queue_data *queue)
 {
+	data->a = 0;
 	data->flg_ants = 0;
 	data->del_path = NULL;
-	queue.last_q_el = NULL;
-	queue.frst_queue_el = NULL;
+	queue->last_q_el = NULL;
+	queue->frst_queue_el = NULL;
 }
 
 t_lst_vld_path	*find_valid_path(t_input_data *data)
@@ -154,10 +93,6 @@ t_lst_vld_path	*find_valid_path(t_input_data *data)
 	t_lst_vld_path	*frst_vl_pth;
 
 	init_data_and_queue(data, &queue);
-//	data->flg_ants = 0;
-//	data->del_path = NULL;
-//	queue.last_q_el = NULL;
-//	queue.frst_queue_el = NULL;
 	frst_vl_pth = NULL;
 	add_queue_el(&queue, create_path_for_queue(data));
 	while (queue.frst_queue_el)

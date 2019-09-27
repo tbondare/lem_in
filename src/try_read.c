@@ -12,6 +12,16 @@
 
 #include "./inc/libftlemin.h"
 
+void check_data_ants_is(char *line, t_input_data *data)
+{
+	if (data->ants_is != 0)
+	{
+		free(line);
+		ft_printf("failed to read ants quantity\n");
+		exit(1);
+	}
+}
+
 int		try_read_cnt_ants(char *line, t_input_data *data)
 {
 	int i;
@@ -21,12 +31,7 @@ int		try_read_cnt_ants(char *line, t_input_data *data)
 		i++;
 	if (line[i] == '\0' && i > 0)
 	{
-		if (data->ants_is != 0)
-		{
-			free(line);
-			ft_printf("failed to read ants quantity\n");
-			exit(1);
-		}
+		check_data_ants_is(line, data);
 		data->cnt_ants = ft_atoi(line);
 		data->ants_is = 1;
 		if (data->cnt_ants == 0)
@@ -42,34 +47,6 @@ int		try_read_cnt_ants(char *line, t_input_data *data)
 		free(line);
 		ft_printf("failed to read ants quantity\n");
 		exit(1);
-	}
-	return (0);
-}
-
-int		try_read_room(char *line, t_input_data *data)
-{
-	int i;
-
-	i = 0;
-	if (line[0] == '#' || line[0] == 'L')
-		return (0);
-	while (line[i] != '\0' && line[i] != ' ')
-		i++;
-	if (line[i] != ' ' || (ft_isdigit(line[i + 1]) == 0 && line[i] != '-'))
-		return (0);
-	i = i + 2;
-	while (line[i] != '\0' && ft_isdigit(line[i]) == 1)
-		i++;
-	if (line[i] != ' ' || (ft_isdigit(line[i + 1]) == 0 && line[i] != '-'))
-		return (0);
-	i = i + 2;
-	while (line[i] != '\0' && ft_isdigit(line[i]) == 1)
-		i++;
-	if (line[i] == '\0')
-	{
-		add_rm_to_list(data);
-		init_room(line, data);
-		return (1);
 	}
 	return (0);
 }

@@ -74,6 +74,7 @@ typedef struct				s_for_del
 
 typedef struct				s_input_data
 {
+	int a;
 	int						flg_ants;
 	int						cnt_ants;
 	int						ants_is;
@@ -134,18 +135,18 @@ typedef struct				s_output_data
 t_list_rooms				*find_start_room(t_input_data *data);
 void						add_queue_el(t_queue_data *que, t_path *el_que);
 void						del_first_queue_el(t_queue_data *queue);
-void						add_come_from_room(t_list_rooms *come_from_rm,
-		t_list_rooms *crnt_rm);
 void						del_queue(t_queue_data *queue);
 
-void						whl_f_save_vl_path(t_list_rooms *crn_room);
+t_lst_vld_path				*add_val_path(t_lst_vld_path **frst_vl_pth);
+t_path			*create_path_for_queue(t_input_data *data);
+t_path			*add_room_to_path(t_input_data *data, t_path *path, t_list_rooms *room);
+void	free_path(t_input_data *data);
+
+void			loop_for_links_crn_room(t_input_data *data, t_queue_data *queue);
 void						save_val_path(t_lst_vld_path **frst_vl_pth,
 		t_path *crn, t_input_data *data);
-void						els_f_whl_fnd_vl_path(t_links *crn_rm_ln,
-		t_queue_data **queue);
-void						whl_f_find_val_path(t_input_data *data,
-		t_links *crn_rm_ln,
-		t_queue_data *queue, t_lst_vld_path **frst_vl_pth);
+int				check_room_is_val_path(t_queue_data *queue);
+void init_data_and_queue(t_input_data *data, t_queue_data *queue);
 t_lst_vld_path				*find_valid_path(t_input_data *data);
 
 void						del_el_val_path(t_vld_path_elem *frs_el);
@@ -154,9 +155,8 @@ void						del_rm_from(t_ls_come_from *from);
 void						free_mem(t_input_data *data);
 void						free_mem_val_path(t_lst_vld_path *lst_vld_path);
 
-t_list_rooms				*found_ptr_room_by_name(t_input_data *data,
-		char *name);
-int							is_same_link(t_links *lnk, char *name);
+void						del_arr_path(t_output_data *out);
+t_list_rooms				*found_ptr_room_by_name(t_input_data *data, char *name);
 void						helper_f_add_tbs(t_input_data *data,
 		t_list_tubes *frs_tb, t_list_rooms **crnt_rm);
 void						add_tubes_to_rooms(t_input_data *data);
@@ -168,30 +168,31 @@ void						add_rm_to_list(t_input_data *data);
 int							is_room_exist(t_input_data *data, char *name_rm);
 void						add_tb_to_list(t_input_data *data);
 
+void check_data_ants_is(char *line, t_input_data *data);
 int							try_read_cnt_ants(char *line, t_input_data *data);
-int							try_read_room(char *line, t_input_data *data);
 int							try_read_tubes (char *line, t_input_data *data);
-int							try_read_comment(char *line, t_input_data *data,
-		int fd, t_str_list **input);
+char						*loop_comments(int fd, t_str_list **input);
+int							try_read_comment(char *line, t_input_data *data, int fd, t_str_list **input);
 
+int							try_read_room(char *line, t_input_data *data);
 void						free_frst_tb(t_input_data *data);
 void						add_line_to_input(t_str_list **input, char *line);
+void						ft_print_input_str(t_str_list *input);
 int							ft_read_data(t_input_data *data);
 
-int							ft_round(float x);
-void						round_ants(t_input_data *data,
-		t_lst_vld_path **crnt, int sum_y);
-int							cnt_x_for_every_valpath(t_input_data *data,
-		t_lst_vld_path *lst_vld_path);
+
+void	print_ants_in_one_line(int cnt_ants, char *end_room_name);
+int							print_ants(t_output_data *out);
+void	output_ants(t_input_data *data, t_output_data *out);
 void						move_ants(t_output_data *out);
 void						push_ants (t_input_data *data, t_output_data *out,
 		int *ant_ind);
 
-int							print_ants(t_output_data *out);
-void						output_ants(t_input_data *data, t_output_data *out);
-void						del_arr_path(t_output_data *out);
-void						inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
-		t_output_data *out, int *j);
+
+void						inner_whl_f_run_ants(t_vld_path_elem *crnt_el, t_output_data *out, int *j);
+void	cnt_ants_for_each_path(t_lst_vld_path *lst_vld_path, int data_ants, int x, int cnt_paths);
+int		distribute_ants_to_paths(t_input_data *data, t_lst_vld_path *lst_vld_path);
+void while_for_run_ants(t_input_data *data, t_output_data *out,t_lst_vld_path *crnt);
 void						run_ants(t_input_data *data,
 		t_lst_vld_path *lst_vld_path);
 #endif

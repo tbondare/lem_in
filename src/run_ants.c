@@ -12,66 +12,6 @@
 
 #include "./inc/libftlemin.h"
 
-int		print_ants(t_output_data *out)
-{
-	int i;
-	int j;
-	int flg;
-
-	i = out->nmb_paths - 1;
-	flg = 0;
-	while (i >= 0)
-	{
-		j = out->arr_paths[i].path_leng - 1;
-		while (j >= 0)
-		{
-			if (out->arr_paths[i].path[j].ant_index != 0)
-			{
-				ft_printf("L%d-%s ", out->arr_paths[i].path[j].ant_index,
-						out->arr_paths[i].path[j].name);
-				flg = 1;
-			}
-			j--;
-		}
-		i--;
-	}
-	if (flg == 1)
-		ft_printf("! \n");
-	return (flg);
-}
-
-void	output_ants(t_input_data *data, t_output_data *out)
-{
-	int flg;
-	int ant_ind;
-	int cnt;
-
-	flg = 1;
-	ant_ind = 1;
-	cnt = 0;
-	while (flg == 1)
-	{
-		cnt++;
-		move_ants(out);
-		push_ants(data, out, &ant_ind);
-		flg = print_ants(out);
-		ft_printf("%d\n", cnt);
-	}
-}
-
-void	del_arr_path(t_output_data *out)
-{
-	int i;
-
-	i = 0;
-	while (i < out->nmb_paths)
-	{
-		free(out->arr_paths[i].path);
-		i++;
-	}
-	free(out->arr_paths);
-}
-
 void	inner_whl_f_run_ants(t_vld_path_elem *crnt_el,
 		t_output_data *out, int *j)
 {
@@ -139,51 +79,44 @@ int		distribute_ants_to_paths(t_input_data *data,
 	return (cnt_paths);
 }
 
-void	print_ants_in_one_line(int cnt_ants, char *end_room_name)
-{
-	int i;
-
-	i = 1;
-	while (cnt_ants >= i)
-	{
-		ft_printf("L%d-%s ", i, end_room_name);
-		i++;
-	}
-	exit(0);
-}
-
-void	run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
+void while_for_run_ants(t_input_data *data, t_output_data *out,t_lst_vld_path *crnt)
 {
 	int				i;
 	int				j;
-	t_output_data	out;
-	t_lst_vld_path	*crnt;
 	t_vld_path_elem	*crnt_el;
 
 	i = 0;
-	crnt = lst_vld_path;
-	out.nmb_paths = distribute_ants_to_paths(data, lst_vld_path);
-	out.arr_paths = (t_out_path*)malloc(sizeof(t_out_path) * out.nmb_paths);
-	while (crnt && out.nmb_paths > i)
+	while (crnt && out->nmb_paths > i)
 	{
 		crnt_el = crnt->frst_path_el;
-		out.arr_paths[i].path =
-			(t_out_room*)malloc(sizeof(t_out_room) * crnt->leng);
+		out->arr_paths[i].path =
+				(t_out_room*)malloc(sizeof(t_out_room) * crnt->leng);
 		j = 0;
 		if (crnt->leng > 1)
 		{
 			crnt_el->i = i;
-			inner_whl_f_run_ants(crnt_el, &out, &j);
+			inner_whl_f_run_ants(crnt_el, out, &j);
 		}
 		else
 			print_ants_in_one_line(data->cnt_ants, data->end_room_name);
-		out.arr_paths[i].nmb_ants = crnt->x;
-		out.arr_paths[i].path_leng = crnt->leng;
-		out.arr_paths[i].path[j].name = data->end_room_name;
-		out.arr_paths[i].path[j].ant_index = 0;
+		out->arr_paths[i].nmb_ants = crnt->x;
+		out->arr_paths[i].path_leng = crnt->leng;
+		out->arr_paths[i].path[j].name = data->end_room_name;
+		out->arr_paths[i].path[j].ant_index = 0;
 		i++;
 		crnt = crnt->next;
 	}
+}
+
+void	run_ants(t_input_data *data, t_lst_vld_path *lst_vld_path)
+{
+	t_output_data	out;
+	t_lst_vld_path	*crnt;
+
+	crnt = lst_vld_path;
+	out.nmb_paths = distribute_ants_to_paths(data, lst_vld_path);
+	out.arr_paths = (t_out_path*)malloc(sizeof(t_out_path) * out.nmb_paths);
+	while_for_run_ants(data, &out, crnt);
 	output_ants(data, &out);
 	del_arr_path(&out);
 }
